@@ -36,7 +36,7 @@ class DataBaseManagerAndroid: DatabaseManager {
     }
 
     /*
-        Loads the settingsfile with the given file suffix templateName and returns it
+        Loads the settings file with the given file suffix templateName and returns it
 
         Returns:
         settings: Json - Json String of the settings in the settings file
@@ -61,7 +61,7 @@ class DataBaseManagerAndroid: DatabaseManager {
     override fun saveGameSettings(templateName: String, settingsJson: String): Boolean {
         try {
             var settingsFilePath = this.path + "settings_" + templateName + ".txt"
-            //try to write to an excisting file
+            //try to write to an existing file
             try {
                 File(settingsFilePath).writeText(settingsJson)
             }

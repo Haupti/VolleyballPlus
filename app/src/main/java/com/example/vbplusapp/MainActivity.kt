@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.example.vbplusapp.game.DataBaseManagerAndroid
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.gson.Gson
@@ -19,7 +20,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     // Request codes
-    private val REQUEST_SETTINGS_ACTIVITY = 0
+    //private val REQUEST_SETTINGS_ACTIVITY = 0
 
 
     //Other activity variables or values
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         Returns:
         Game object
      */
-    private fun loadGameSettings(gameSettings: MutableList<String>
+    private fun makeGame(gameSettings: MutableList<String>
                             = mutableListOf("3","2","Team1","Team2","25") ): Game {
 
         //Returns a game object with the settings chosen. If none given, use default
@@ -44,8 +45,22 @@ class MainActivity : AppCompatActivity() {
                     gameSettings[2],gameSettings[3], gameSettings[4].toInt())
     }
 
+    /*
+        Loads the game settings from the file with given file suffix,
+        then makes a new Game object with the given settings from file. If none are found
+        Game will be created with the Game classes default settings
+     */
+    private fun loadGameSettings(templateName:String){
+        var settingsList: MutableList<String> =
+            Gson().fromJson(dbManager.loadGameSettings(templateName),
+                Array<String>::class.java).toMutableList()
+        this.game = makeGame(settingsList)
+    }
+
+
     private fun initialize(){
         dbManager = DataBaseManagerAndroid(applicationContext)
+        this.game = makeGame(mutableListOf("3","2","Team1","Team2","25"))
     }
 
     /*
@@ -109,6 +124,7 @@ class MainActivity : AppCompatActivity() {
     /*
         Handles activity results if the activity is called for a result
      */
+    /*
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // This is the case if the settings activity is called and the apply button was clicked
@@ -123,6 +139,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    */
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,34 +149,47 @@ class MainActivity : AppCompatActivity() {
 
         //Initialization block
         initialize()
-        game = loadGameSettings()
-        refreshDisplay(game)
+        refreshDisplay(this.game)
 
         nextSetButton.visibility = View.GONE
 
         addPointTeam1Button.setOnClickListener {
-            game.addPoint(1)
-            update(game)
+            this.game.addPoint(1)
+            update(this.game)
         }
 
         addPointTeam2Button.setOnClickListener {
-            game.addPoint(2)
-            update(game)
+            this.game.addPoint(2)
+            update(this.game)
         }
 
         reverse.setOnClickListener {
-            game.sets[game.currentSet-1].reverseLastAction()
-            update(game)
+            this.game.sets[game.currentSet-1].reverseLastAction()
+            update(this.game)
         }
 
         settings.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
-            startActivityForResult(intent,REQUEST_SETTINGS_ACTIVITY)
+            startActivity(intent)
         }
 
         nextSetButton.setOnClickListener{
-            game.nextSet()
-            update(game)
+            this.game.nextSet()
+            update(this.game)
+        }
+
+        reloadButton.setOnClickListener {
+            val alertDiaBuilder = AlertDialog.Builder(applicationContext)
+            alertDiaBuilder.setMessage("Are you sure? \n" +
+                    " This will discard the current progress and reload the game with the latest settings.")
+            alertDiaBuilder.setCancelable(true)
+                .setPositiveButton("Yes") { _, _ ->
+                    this.loadGameSettings("latest")
+                    refreshDisplay(this.game)
+                }
+            val alert = alertDiaBuilder.create()
+            alert.show()
+
         }
 
 
