@@ -3,13 +3,16 @@ package com.example.vbplusapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.View
 import com.example.vbplusapp.game.DataBaseManagerAndroid
 import kotlinx.android.synthetic.main.activity_main.*
+import com.google.gson.Gson
 
 import com.example.vbplusapp.game.Game
 import com.example.vbplusapp.game.Set
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.TypeVariable
 import java.util.*
 
 
@@ -33,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         Returns:
         Game object
      */
-    private fun loadGameSettings( gameSettings: MutableList<String>
+    private fun loadGameSettings(gameSettings: MutableList<String>
                             = mutableListOf("3","2","Team1","Team2","25") ): Game {
 
         //Returns a game object with the settings chosen. If none given, use default
@@ -112,7 +115,10 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == REQUEST_SETTINGS_ACTIVITY && resultCode == RESULT_OK){
             var settingsApplied: Boolean = data!!.getBooleanExtra("settingsApplied",false)
             if(settingsApplied){
-                initialize()
+                var settingsList: MutableList<String> =
+                            Gson().fromJson(dbManager.loadGameSettings("latest"),
+                                            Array<String>::class.java).toMutableList()
+                loadGameSettings(settingsList)
             }
         }
     }
