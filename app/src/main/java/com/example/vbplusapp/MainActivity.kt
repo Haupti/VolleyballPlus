@@ -54,13 +54,14 @@ class MainActivity : AppCompatActivity() {
         var settingsList: MutableList<String> =
             Gson().fromJson(dbManager.loadGameSettings(templateName),
                 Array<String>::class.java).toMutableList()
+        textView.text = settingsList.toString()
         this.game = makeGame(settingsList)
     }
 
 
     private fun initialize(){
         dbManager = DataBaseManagerAndroid(applicationContext)
-        this.game = makeGame(mutableListOf("3","2","Team1","Team2","25"))
+        this.game = makeGame()
     }
 
     /*
@@ -179,17 +180,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         reloadButton.setOnClickListener {
-            val alertDiaBuilder = AlertDialog.Builder(applicationContext)
-            alertDiaBuilder.setMessage("Are you sure? \n" +
-                    " This will discard the current progress and reload the game with the latest settings.")
-            alertDiaBuilder.setCancelable(true)
-                .setPositiveButton("Yes") { _, _ ->
-                    this.loadGameSettings("latest")
-                    refreshDisplay(this.game)
-                }
-            val alert = alertDiaBuilder.create()
-            alert.show()
-
+            this.loadGameSettings("latest")
+            refreshDisplay(this.game)
         }
 
 

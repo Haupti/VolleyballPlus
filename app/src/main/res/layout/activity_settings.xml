@@ -24,7 +24,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:ems="10"
-                    android:id="@+id/team1NameEdit" android:hint="name"/>
+                    android:id="@+id/team1NameEdit" android:hint="Team1"/>
         </TableRow>
         <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
             <TextView
@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:ems="10"
-                    android:id="@+id/team2NameEdit" android:hint="name"/>
+                    android:id="@+id/team2NameEdit" android:hint="Team2"/>
         </TableRow>
         <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
             <TextView
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:ems="10"
-                    android:id="@+id/winningScoreEdit" android:hint="25 indoor, 21 beach"/>
+                    android:id="@+id/winningScoreEdit" android:hint="25"/>
         </TableRow>
         <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
             <TextView
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:ems="10"
-                    android:id="@+id/pointGapEdit" android:hint="default 2"/>
+                    android:id="@+id/pointGapEdit" android:hint="2"/>
         </TableRow>
         <TableRow
                 android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:ems="10"
-                    android:id="@+id/winningSetsEdit" android:hint="3 indoor, 2 beach"/>
+                    android:id="@+id/winningSetsEdit" android:hint="3"/>
         </TableRow>
     </TableLayout>
     <LinearLayout
@@ -104,7 +104,6 @@
             android:layout_marginLeft="28dp" android:layout_marginTop="28dp" android:layout_marginStart="28dp"
             android:textSize="30sp"/>
     <TextView
-            android:text="TextView"
             android:layout_width="63dp"
             android:layout_height="18dp" android:id="@+id/debugView"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
