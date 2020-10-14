@@ -4,17 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import com.example.vbplusapp.game.DataBaseManagerAndroid
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.gson.Gson
 
 import com.example.vbplusapp.game.Game
 import com.example.vbplusapp.game.Set
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
-import java.lang.reflect.TypeVariable
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         var settingsList: MutableList<String> =
             Gson().fromJson(dbManager.loadGameSettings(templateName),
                 Array<String>::class.java).toMutableList()
-        textView.text = settingsList.toString()
         this.game = makeGame(settingsList)
     }
 
@@ -75,12 +69,19 @@ class MainActivity : AppCompatActivity() {
         nothing
     */
     private fun updateButtons(game: Game){
-       if(game.sets[game.currentSet-1].isOver) { // if the current set is over show the next set button, hide two other
+       if(game.sets[game.currentSet-1].isOver || game.isOver) { // if the current set is over show the next set button, hide two other
            addPointTeam2Button.visibility = View.GONE
            addPointTeam1Button.visibility = View.GONE
-           nextSetButton.visibility = View.VISIBLE
+           if(game.isOver) {
+                   reloadButton.text = "New Game"
+           }
+           else {
+               nextSetButton.visibility = View.VISIBLE
+           }
+
        }
         else if (!game.sets[game.currentSet-1].isOver){ // if set is not over (next set button pressed) reverses the view
+           reloadButton.text = "Reload"
            addPointTeam1Button.visibility = View.VISIBLE
            addPointTeam2Button.visibility = View.VISIBLE
            nextSetButton.visibility = View.GONE
@@ -93,33 +94,24 @@ class MainActivity : AppCompatActivity() {
         Parameters:
         game: Game = the game object that is needed to show scores and stuff
      */
-    private fun update(game: Game){
-        updateButtons(game)
-        refreshDisplay(game)
+    private fun update(){
+        updateButtons(this.game)
+        refreshDisplay(this.game)
     }
 
     private fun refreshDisplay(game: Game){
 
         var currentSet: Set = game.sets[game.currentSet-1]
-        var text: String = "Default Volleyball Game \n\n"
-        text += game.isOver.toString() +  "\n"
 
-        text += game.setHistory
-        text += "\n"
+        team1NameView.text = game.team1Name
+        team2NameView.text = game.team2Name
+        team1SetsView.text = game.setHistory.count{it==0}.toString()
+        team2SetsView.text = game.setHistory.count{it==1}.toString()
+        team1ScoreView.text = currentSet.team1Score.toString()
+        team2ScoreView.text = currentSet.team2Score.toString()
+        team1ScoreHistView.text = currentSet.team1ScoreHistory.toString()
+        team2ScoreHistView.text = currentSet.team2ScoreHistory.toString()
 
-        text += "\n"
-        text += "_______________________\n\n"
-
-        text = text + "Team 1: " + game.team1Name.toString() + "\n"
-        text = text + "Score: " + currentSet.team1Score.toString() + "\n\n"
-
-        text = text + "Team 2: " + game.team2Name.toString() + "\n"
-        text = text + "Score: " + currentSet.team2Score.toString() + "\n\n"
-
-        text = text + "Score history T1: " + currentSet.team1ScoreHistory + "\n"
-        text = text + "Score history T2: " + currentSet.team2ScoreHistory + "\n\n"
-
-        textView.text = text
     }
 
     /*
@@ -156,17 +148,17 @@ class MainActivity : AppCompatActivity() {
 
         addPointTeam1Button.setOnClickListener {
             this.game.addPoint(1)
-            update(this.game)
+            update()
         }
 
         addPointTeam2Button.setOnClickListener {
             this.game.addPoint(2)
-            update(this.game)
+            update()
         }
 
         reverse.setOnClickListener {
             this.game.sets[game.currentSet-1].reverseLastAction()
-            update(this.game)
+            update()
         }
 
         settings.setOnClickListener {
@@ -176,12 +168,13 @@ class MainActivity : AppCompatActivity() {
 
         nextSetButton.setOnClickListener{
             this.game.nextSet()
-            update(this.game)
+            update()
         }
 
         reloadButton.setOnClickListener {
             this.loadGameSettings("latest")
             refreshDisplay(this.game)
+            update()
         }
 
 
