@@ -1,6 +1,7 @@
 package com.example.vbplusapp.game
 
 import android.app.AlertDialog
+import android.content.Context
 import java.io.File
 import java.io.FileNotFoundException
 import java.lang.Exception
@@ -9,11 +10,13 @@ import kotlin.coroutines.coroutineContext
 class DataBaseManagerAndroid: DatabaseManager {
 
     override val path: String
+    val context: Context
 
     var lastExceptionThrown: String = "none"
 
-    constructor(path: String) {
-        this.path = path
+    constructor(context: Context) {
+        this.context = context
+        this.path = this.context.filesDir.toString()
     }
 
     override fun createDatabase(filename: String): Boolean {

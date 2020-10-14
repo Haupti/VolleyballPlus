@@ -3,7 +3,9 @@ package com.example.vbplusapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.View
+import com.example.vbplusapp.game.DataBaseManagerAndroid
 import kotlinx.android.synthetic.main.activity_main.*
 
 import com.example.vbplusapp.game.Game
@@ -12,14 +14,35 @@ import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
+
+    // Request codes
+    private val REQUEST_SETTINGS_ACTIVITY = 0
+
+
+    //Other activity variables or values
+    lateinit var game: Game
+    lateinit var dbManager: DataBaseManagerAndroid
+
+
     /*
         Initializes a new game based on the settings given
+
+        Parameters:
+        mutableList
 
         Returns:
         Game object
      */
-    private fun initialize(): Game {
-        return Game()
+    private fun loadGameSettings( gameSettings: MutableList<String>
+                            = mutableListOf("3","2","Team1","Team2","25") ): Game {
+
+        //Returns a game object with the settings chosen. If none given, use default
+        return Game(gameSettings[0].toInt(),gameSettings[1].toInt(),
+                    gameSettings[2],gameSettings[3], gameSettings[4].toInt())
+    }
+
+    private fun initialize(){
+        dbManager = DataBaseManagerAndroid(applicationContext)
     }
 
     /*
@@ -80,12 +103,29 @@ class MainActivity : AppCompatActivity() {
         textView.text = text
     }
 
+    /*
+        Handles activity results if the activity is called for a result
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // This is the case if the settings activity is called and the apply button was clicked
+        if (requestCode == REQUEST_SETTINGS_ACTIVITY && resultCode == RESULT_OK){
+            var settingsApplied: Boolean = data!!.getBooleanExtra("settingsApplied",false)
+            if(settingsApplied){
+                initialize()
+            }
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var game: Game = initialize()
+
+        //Initialization block
+        initialize()
+        game = loadGameSettings()
         refreshDisplay(game)
 
         nextSetButton.visibility = View.GONE
@@ -107,7 +147,7 @@ class MainActivity : AppCompatActivity() {
 
         settings.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent,REQUEST_SETTINGS_ACTIVITY)
         }
 
         nextSetButton.setOnClickListener{
