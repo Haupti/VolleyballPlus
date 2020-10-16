@@ -61,7 +61,7 @@ class SettingsActivity : AppCompatActivity() {
                                                          settingsJson = Gson().toJson(gameSettings)).toString()
 
             //For debugging only
-            debugView.text = dbMan.lastExceptionThrown
+            //debugView.text = dbMan.lastExceptionThrown
         }
 
         //Simply go back to the MainActivity

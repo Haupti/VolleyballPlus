@@ -70,10 +70,10 @@ class MainActivity : AppCompatActivity() {
     */
     private fun updateButtons(game: Game){
        if(game.sets[game.currentSet-1].isOver || game.isOver) { // if the current set is over show the next set button, hide two other
-           addPointTeam2Button.visibility = View.GONE
-           addPointTeam1Button.visibility = View.GONE
+           team1ScoreUp.visibility = View.GONE
+           team2ScoreUp.visibility = View.GONE
            if(game.isOver) {
-                   reloadButton.text = "New Game"
+               reloadButton.text = "New Game"
            }
            else {
                nextSetButton.visibility = View.VISIBLE
@@ -82,8 +82,8 @@ class MainActivity : AppCompatActivity() {
        }
         else if (!game.sets[game.currentSet-1].isOver){ // if set is not over (next set button pressed) reverses the view
            reloadButton.text = "Reload"
-           addPointTeam1Button.visibility = View.VISIBLE
-           addPointTeam2Button.visibility = View.VISIBLE
+           team1ScoreUp.visibility = View.VISIBLE
+           team2ScoreUp.visibility = View.VISIBLE
            nextSetButton.visibility = View.GONE
        }
     }
@@ -105,12 +105,12 @@ class MainActivity : AppCompatActivity() {
 
         team1NameView.text = game.team1Name
         team2NameView.text = game.team2Name
-        team1SetsView.text = game.setHistory.count{it==0}.toString()
-        team2SetsView.text = game.setHistory.count{it==1}.toString()
+        team1SetsView.text = game.setHistory.count{it==1}.toString()
+        team2SetsView.text = game.setHistory.count{it==2}.toString()
         team1ScoreView.text = currentSet.team1Score.toString()
         team2ScoreView.text = currentSet.team2Score.toString()
-        team1ScoreHistView.text = currentSet.team1ScoreHistory.toString()
-        team2ScoreHistView.text = currentSet.team2ScoreHistory.toString()
+        //team1ScoreHistView.text = currentSet.team1ScoreHistory.toString()
+        //team2ScoreHistView.text = currentSet.team2ScoreHistory.toString()
 
     }
 
@@ -146,12 +146,12 @@ class MainActivity : AppCompatActivity() {
 
         nextSetButton.visibility = View.GONE
 
-        addPointTeam1Button.setOnClickListener {
+        team1ScoreUp.setOnClickListener {
             this.game.addPoint(1)
             update()
         }
 
-        addPointTeam2Button.setOnClickListener {
+        team2ScoreUp.setOnClickListener {
             this.game.addPoint(2)
             update()
         }
