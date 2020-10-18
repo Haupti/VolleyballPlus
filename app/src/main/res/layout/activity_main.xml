@@ -5,7 +5,21 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity" android:scrollbarSize="25dp" android:scaleX="1" android:scaleY="1">
+        tools:context=".MainActivity" android:scrollbarSize="25dp" android:scaleX="1" android:scaleY="1"
+        android:background="#00FFFFFF" android:foreground="#009C9C9C">
+    <View
+            android:layout_width="413dp"
+            android:layout_height="501dp" android:id="@+id/view"
+            android:foreground="@drawable/ic_vbp_launcher_foreground"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="@+id/divider3"
+            app:layout_constraintTop_toTopOf="@+id/divider" android:background="#00FFFDFD"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="171dp" android:id="@+id/view2" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/reverse" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.0" android:foreground="@android:drawable/title_bar"/>
     <Button
             android:layout_width="60dp"
             android:layout_height="60dp" android:id="@+id/settings"
