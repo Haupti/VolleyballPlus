@@ -1,6 +1,7 @@
 package com.example.vbplusapp
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -114,26 +115,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    /*
-        Handles activity results if the activity is called for a result
-     */
-    /*
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        // This is the case if the settings activity is called and the apply button was clicked
-        if (requestCode == REQUEST_SETTINGS_ACTIVITY && resultCode == RESULT_OK){
-            var settingsApplied: Boolean = data!!.getBooleanExtra("settingsApplied",false)
-            if(settingsApplied){
-                var settingsList: MutableList<String> =
-                            Gson().fromJson(dbManager.loadGameSettings("latest"),
-                                            Array<String>::class.java).toMutableList()
-                loadGameSettings(settingsList)
-            }
-        }
-    }
-
-    */
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,6 +124,7 @@ class MainActivity : AppCompatActivity() {
         //Initialization block
         initialize()
         refreshDisplay(this.game)
+        update()
 
         nextSetButton.visibility = View.GONE
 
@@ -177,10 +159,8 @@ class MainActivity : AppCompatActivity() {
             update()
         }
 
-
-
-
     }
+
 
 }
 
