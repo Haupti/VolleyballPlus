@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.vbplusapp.game.DataBaseManagerAndroid
+import com.example.vbplusapp.game.FILE_OPEN_FAILED
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.gson.Gson
 
 import com.example.vbplusapp.game.Game
 import com.example.vbplusapp.game.Set
+import com.example.vbplusapp.game.FAILED
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     //Other activity variables or values
     lateinit var game: Game
-    lateinit var dbManager: DataBaseManagerAndroid
+    lateinit var dbMan: DataBaseManagerAndroid
 
 
     /*
@@ -47,22 +49,22 @@ class MainActivity : AppCompatActivity() {
         Game will be created with the Game classes default settings
      */
     private fun loadGameSettings(templateName:String){
-        var responseState :String = dbManager.loadGameSettings(templateName)
-        var settingsList: MutableList<String> =
-            Gson().fromJson(dbManager.loadGameSettings(templateName),
-                Array<String>::class.java).toMutableList()
-        if (responseState == dbManager.FILE_LOADING_FAILED_STRG){
-            this.game = makeGame()
+        var response = dbMan.loadGameSettings(templateName)
+        if (response.responseState == FAILED){
+            this.game = makeGame() // Use standard settings if loading failed
         }
         else {
+            var responseText = response.responseText
+            var settingsList: MutableList<String> =
+                Gson().fromJson(responseText, Array<String>::class.java).toMutableList()
             this.game = makeGame(settingsList)
         }
     }
 
 
     private fun initialize(){
-        dbManager = DataBaseManagerAndroid(applicationContext)
-        this.game = makeGame()
+        dbMan= DataBaseManagerAndroid(applicationContext)
+        this.game = makeGame() // Make a game with standard settings
     }
 
     /*
@@ -95,17 +97,6 @@ class MainActivity : AppCompatActivity() {
        }
     }
 
-    /*
-        Updates the score view and also the button visibility
-
-        Parameters:
-        game: Game = the game object that is needed to show scores and stuff
-     */
-    private fun update(){
-        updateButtons(this.game)
-        refreshDisplay(this.game)
-    }
-
     private fun refreshDisplay(game: Game){
 
         var currentSet: Set = game.sets[game.currentSet-1]
@@ -121,6 +112,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /*
+        Updates the score view and also the button visibility
+
+        Parameters:
+        game: Game = the game object that is needed to show scores and stuff
+     */
+    private fun update(){
+        updateButtons(this.game)
+        refreshDisplay(this.game)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -9,35 +9,28 @@ import kotlin.coroutines.coroutineContext
 
 class DataBaseManagerAndroid: DatabaseManager {
 
-    //String codes
-    val FILE_LOADING_FAILED_STRG: String = "FLF"
-    val FILE_LOADING_FAILED_INT: Int = 0
-    val FILE_LOADING_FAILED: Boolean = false
-
-
-    override val path: String
+    override val path: String // Path to settings files and the games data base
     val context: Context
-
-    var lastExceptionThrown: String = "none"
+    override lateinit var response: DataBaseResponse //Must be set in the methods of the manager
 
     constructor(context: Context) {
         this.context = context
         this.path = this.context.filesDir.toString()
     }
 
-    override fun createDatabase(filename: String): Boolean {
+    override fun createDatabase(filename: String): DataBaseResponse {
         TODO("Not yet implemented")
     }
 
-    override fun saveGame(game: Game, filename: String): Boolean {
+    override fun saveGame(game: Game, filename: String): DataBaseResponse {
         TODO("Not yet implemented")
     }
 
-    override fun loadAllGames(filename: String): MutableList<Game> {
+    override fun loadAllGames(filename: String): DataBaseResponse {
         TODO("Not yet implemented")
     }
 
-    override fun loadGame(gameId: Int, filename: String): Game {
+    override fun loadGame(gameId: Int, filename: String): DataBaseResponse {
         TODO("Not yet implemented")
     }
 
@@ -45,17 +38,19 @@ class DataBaseManagerAndroid: DatabaseManager {
         Loads the settings file with the given file suffix templateName and returns it
 
         Returns:
-        settings: Json - Json String of the settings in the settings file
-
-        Does not throw error, if loading failed it returns the fail code
+        DataBaseResponse object containing response text, error message and state code
      */
-    override fun loadGameSettings(templateName: String): String {
+    override fun loadGameSettings(templateName: String):DataBaseResponse {
+        this.response = DataBaseResponse()
         try {
             var settingsFilePath = this.path + "settings_" + templateName + ".txt"
-            return File(settingsFilePath).readText()
+            this.response.responseText = File(settingsFilePath).readText()
+            this.response.responseState = OK
         }catch (e: FileNotFoundException){
-            return FILE_LOADING_FAILED_STRG
+            this.response.responseState = FAILED
+            this.response.errorMessage = e.message.toString()
         }
+        return this.response
     }
 
     /*
@@ -63,12 +58,10 @@ class DataBaseManagerAndroid: DatabaseManager {
         settings file.
 
         Returns:
-        True if successfull
-        False if failed
-
-        Does not throw error!
+        DataBaseResponse object
      */
-    override fun saveGameSettings(templateName: String, settingsJson: String): Boolean {
+    override fun saveGameSettings(templateName: String, settingsJson: String):DataBaseResponse {
+        this.response= DataBaseResponse()
         try {
             var settingsFilePath = this.path + "settings_" + templateName + ".txt"
             //try to write to an existing file
@@ -81,14 +74,16 @@ class DataBaseManagerAndroid: DatabaseManager {
                 //and then write to it
                 File(settingsFilePath).writeText(settingsJson)
             }
+            this.response.responseState = OK
         }
         //if that also fails, other problem exists, return false as indicator of the failure
         catch (e: Exception) {
             // It failed if an Exception is raised
-            this.lastExceptionThrown = e.message.toString()
-            return FILE_LOADING_FAILED
+            this.response.responseText= e.message.toString()
+            this.response.responseState = FAILED
+            this.response.errorMessage = e.message.toString()
         }
-        return true
+        return this.response
     }
 }
 
