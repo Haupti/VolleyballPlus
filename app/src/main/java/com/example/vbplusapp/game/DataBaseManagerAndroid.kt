@@ -9,6 +9,12 @@ import kotlin.coroutines.coroutineContext
 
 class DataBaseManagerAndroid: DatabaseManager {
 
+    //String codes
+    val FILE_LOADING_FAILED_STRG: String = "FLF"
+    val FILE_LOADING_FAILED_INT: Int = 0
+    val FILE_LOADING_FAILED: Boolean = false
+
+
     override val path: String
     val context: Context
 
@@ -41,11 +47,15 @@ class DataBaseManagerAndroid: DatabaseManager {
         Returns:
         settings: Json - Json String of the settings in the settings file
 
-        This DOES throw an error!
+        Does not throw error, if loading failed it returns the fail code
      */
     override fun loadGameSettings(templateName: String): String {
-        var settingsFilePath = this.path + "settings_" + templateName + ".txt"
-        return File(settingsFilePath).readText()
+        try {
+            var settingsFilePath = this.path + "settings_" + templateName + ".txt"
+            return File(settingsFilePath).readText()
+        }catch (e: FileNotFoundException){
+            return FILE_LOADING_FAILED_STRG
+        }
     }
 
     /*
@@ -76,7 +86,7 @@ class DataBaseManagerAndroid: DatabaseManager {
         catch (e: Exception) {
             // It failed if an Exception is raised
             this.lastExceptionThrown = e.message.toString()
-            return false
+            return FILE_LOADING_FAILED
         }
         return true
     }

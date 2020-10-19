@@ -47,10 +47,16 @@ class MainActivity : AppCompatActivity() {
         Game will be created with the Game classes default settings
      */
     private fun loadGameSettings(templateName:String){
+        var responseState :String = dbManager.loadGameSettings(templateName)
         var settingsList: MutableList<String> =
             Gson().fromJson(dbManager.loadGameSettings(templateName),
                 Array<String>::class.java).toMutableList()
-        this.game = makeGame(settingsList)
+        if (responseState == dbManager.FILE_LOADING_FAILED_STRG){
+            this.game = makeGame()
+        }
+        else {
+            this.game = makeGame(settingsList)
+        }
     }
 
 
