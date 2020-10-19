@@ -1,11 +1,9 @@
 package com.example.vbplusapp.game
 
-import android.app.AlertDialog
 import android.content.Context
 import java.io.File
 import java.io.FileNotFoundException
 import java.lang.Exception
-import kotlin.coroutines.coroutineContext
 
 class DataBaseManagerAndroid: DatabaseManager {
 

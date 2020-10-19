@@ -16,28 +16,28 @@
             app:layout_constraintEnd_toEndOf="parent"/>
     <View
             android:layout_width="match_parent"
-            android:layout_height="171dp" android:id="@+id/view2" app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="130dp" android:id="@+id/view2" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/reverse" app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.0" android:foreground="@android:drawable/title_bar"/>
     <Button
-            android:layout_width="60dp"
-            android:layout_height="60dp" android:id="@+id/settings"
+            android:layout_width="75dp"
+            android:layout_height="75dp" android:id="@+id/settings"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="28dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.98" android:foreground="@android:drawable/ic_menu_preferences"
+            app:layout_constraintHorizontal_bias="1.0" android:foreground="@android:drawable/ic_menu_preferences"
             android:background="#00FFFFFF" android:layout_marginRight="28dp"
-            app:layout_constraintBottom_toTopOf="@+id/divider2" app:layout_constraintVertical_bias="0.146"
+            app:layout_constraintBottom_toTopOf="@+id/divider2" app:layout_constraintVertical_bias="0.0"
             style="@style/Widget.AppCompat.Button.Borderless"/>
     <Button
-            android:layout_width="100dp"
-            android:layout_height="100dp" android:id="@+id/reverse"
+            android:layout_width="75dp"
+            android:layout_height="75dp" android:id="@+id/reverse"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="28dp"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintEnd_toEndOf="parent"
             android:background="#009C9C9C"
             android:foreground="@android:drawable/ic_menu_revert" app:layout_constraintBottom_toTopOf="@+id/divider2"
             app:layout_constraintVertical_bias="0.0" style="@style/Widget.AppCompat.Button.Borderless"/>
@@ -47,28 +47,28 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.045"
+            app:layout_constraintHorizontal_bias="0.0"
             android:layout_marginTop="28dp"
             android:background="#00FFFFFF" android:layout_marginLeft="28dp"
-            app:layout_constraintBottom_toTopOf="@+id/divider2" app:layout_constraintVertical_bias="0.146"
+            app:layout_constraintBottom_toTopOf="@+id/divider2" app:layout_constraintVertical_bias="0.0"
             style="@style/Widget.AppCompat.Button.Borderless" android:drawableTop="@android:drawable/ic_menu_upload"
             android:text="Reload" android:textColor="@color/colorPrimaryDark"/>
     <Button
-            android:layout_width="100dp"
-            android:layout_height="100dp" android:id="@+id/team1ScoreUp"
-            android:foreground="@android:drawable/ic_menu_add" android:background="#00FFFFFF"
+            android:layout_width="75dp"
+            android:layout_height="75dp" android:id="@+id/team1ScoreUp"
+            android:foreground="@android:drawable/ic_menu_add"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider2"
             app:layout_constraintTop_toBottomOf="@+id/divider3" android:layout_marginBottom="20dp"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            style="@style/Widget.AppCompat.Button" android:background="#00FFFFFF"/>
     <Button
-            android:layout_width="100dp"
-            android:layout_height="100dp" android:id="@+id/team2ScoreUp"
+            android:layout_width="75dp"
+            android:layout_height="75dp" android:id="@+id/team2ScoreUp"
             android:foreground="@android:drawable/ic_menu_add"
             android:background="#00FFFFFF" app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="20dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider2"
-            app:layout_constraintTop_toBottomOf="@+id/divider3" style="@style/Widget.AppCompat.Button.Borderless"/>
+            app:layout_constraintTop_toBottomOf="@+id/divider3" style="@style/Widget.AppCompat.Button"/>
     <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
