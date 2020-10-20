@@ -16,10 +16,10 @@ import com.example.vbplusapp.game.FAILED
 
 
 class MainActivity : AppCompatActivity() {
-
-    // Request codes
-    //private val REQUEST_SETTINGS_ACTIVITY = 0
-
+    //default settings. Might need a better solution for that problem.
+    // The problem: first starting the app, then there is no templates.json and settings_latest.json file
+    // then the app needs to make that. But only for the first ever time the app is started.
+    private val defaultSettings: MutableList<String> = mutableListOf("3","2","Team1","Team2","25")
 
     //Other activity variables or values
     lateinit var game: Game
@@ -35,8 +35,7 @@ class MainActivity : AppCompatActivity() {
         Returns:
         Game object
      */
-    private fun makeGame(gameSettings: MutableList<String>
-                            = mutableListOf("3","2","Team1","Team2","25") ): Game {
+    private fun makeGame(gameSettings: MutableList<String> = this.defaultSettings): Game {
 
         //Returns a game object with the settings chosen. If none given, use default
         return Game(gameSettings[0].toInt(),gameSettings[1].toInt(),
@@ -52,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         var response = dbMan.loadGameSettings(templateName)
         if (response.responseState == FAILED){
             this.game = makeGame() // Use standard settings if loading failed
+            dbMan.addTemplateToList("latest",this.defaultSettings.toString())
         }
         else {
             var responseText = response.responseText
@@ -126,7 +126,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         //Initialization block
         initialize()

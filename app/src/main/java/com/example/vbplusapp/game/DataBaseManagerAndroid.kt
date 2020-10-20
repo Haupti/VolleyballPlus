@@ -1,9 +1,14 @@
 package com.example.vbplusapp.game
 
 import android.content.Context
+import android.provider.ContactsContract
+import com.google.gson.Gson
 import java.io.File
 import java.io.FileNotFoundException
 import java.lang.Exception
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 
 class DataBaseManagerAndroid: DatabaseManager {
 
@@ -41,7 +46,7 @@ class DataBaseManagerAndroid: DatabaseManager {
     override fun loadGameSettings(templateName: String):DataBaseResponse {
         this.response = DataBaseResponse()
         try {
-            var settingsFilePath = this.path + "settings_" + templateName + ".txt"
+            var settingsFilePath = this.path + "settings_$templateName.json"
             this.response.responseText = File(settingsFilePath).readText()
             this.response.responseState = OK
         }catch (e: FileNotFoundException){
@@ -61,7 +66,7 @@ class DataBaseManagerAndroid: DatabaseManager {
     override fun saveGameSettings(templateName: String, settingsJson: String):DataBaseResponse {
         this.response= DataBaseResponse()
         try {
-            var settingsFilePath = this.path + "settings_" + templateName + ".txt"
+            var settingsFilePath = this.path + "settings_$templateName.json"
             //try to write to an existing file
             try {
                 File(settingsFilePath).writeText(settingsJson)
@@ -82,6 +87,72 @@ class DataBaseManagerAndroid: DatabaseManager {
             this.response.errorMessage = e.message.toString()
         }
         return this.response
+    }
+
+    override fun getSettingsTemplatesJSON(): DataBaseResponse {
+        var settingsTemplateList: MutableList<String> =
+            Gson().fromJson(
+                File(path + "templates.json").readText(),
+                Array<String>::class.java
+            ).toMutableList()
+
+        var response = DataBaseResponse()
+        response.responseState = OK
+        response.responseText = Gson().toJson(settingsTemplateList, Array<String>::class.java)
+
+        return response
+    }
+
+    override fun addTemplateToList(templateName: String, settingsJson: String):DataBaseResponse {
+        var templatesFilePath = path + "templates.json"
+        var response = DataBaseResponse()
+        lateinit var settingsList: MutableList<String>
+
+        //first need to read the file content to add an entry
+        try {
+            settingsList =
+                Gson().fromJson(
+                    getSettingsTemplatesJSON().responseText,
+                    Array<String>::class.java
+                ).toMutableList()
+            response.responseState = OK
+
+            var isListed: Boolean = false
+            for (sElement in settingsList){
+                if(sElement == templateName){ isListed = true }
+            }
+            if(!isListed){
+                 settingsList.add("settings_$templateName.json")
+            }
+        }
+        //Only a file not found exception should be handled here
+        //others result in the response to be set to FAILED state
+        catch (e: Exception){
+            when(e){
+                is FileNotFoundException -> {
+                    File(templatesFilePath).createNewFile()
+                    settingsList.add("templates.json")
+                    File(templatesFilePath).writeText(
+                        Gson().toJson(
+                            settingsList,
+                            Array<String>::class.java
+                        )
+                    )
+                    response.responseState = OK
+                }
+                else -> {
+                    response.errorMessage = e.message.toString()
+                    response.responseState = FAILED
+                    return response
+                }
+            }
+
+        }
+        this.saveGameSettings(templateName,settingsJson)
+        return response
+
+
+
     }
 }
 

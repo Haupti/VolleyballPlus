@@ -63,10 +63,29 @@ interface DatabaseManager{
         Doesn't throw error.
 
         Parameters:
-        -suffix name: String - suffix of the save of the game settings. Scheme will be: settings_suffixname.csv
+        -suffix name: String - suffix of the save of the game settings. Scheme will be: settings_suffixname.json
 
         Returns:
         DataBaseResponse object containing error message, response text and response state
      */
     fun saveGameSettings(templateName: String = "latest", settingsJson: String):DataBaseResponse
+
+    /*
+        Reads the templates.json file and returns the list in it as Json string
+        The templates file contains a list of all settings templates
+
+        Returns:
+        DataBaseResponse object containing a Json string with the String of the settings file names
+     */
+    fun getSettingsTemplatesJSON():DataBaseResponse
+
+    /*
+        Saves an additional template to the settings template list saved in the
+        templates.json file
+
+
+        Returns:
+        DataBaseResponse object with status code
+     */
+    fun addTemplateToList(templateName: String, settingsJson: String):DataBaseResponse
 }

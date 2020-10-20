@@ -18,7 +18,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/tableLayout" app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintHorizontal_bias="0.491"
-            app:layout_constraintVertical_bias="0.247">
+            app:layout_constraintVertical_bias="0.417">
 
         <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
             <TextView
@@ -127,13 +127,10 @@
             app:layout_constraintHorizontal_bias="1.0" app:layout_constraintVertical_bias="0.0"
             android:foreground="@android:drawable/ic_menu_close_clear_cancel" android:background="#00FFFFFF"
             style="@style/Widget.AppCompat.Button.Borderless"/>
-    <ScrollView
-            android:layout_width="157dp"
-            android:layout_height="66dp"
-            android:isScrollContainer="true" android:id="@+id/scrollContainer" android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/divider5" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/divider4" app:layout_constraintTop_toBottomOf="@+id/tableLayout">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:orientation="vertical"/>
-    </ScrollView>
+    <Spinner
+            android:layout_width="409dp"
+            android:layout_height="wrap_content" android:id="@+id/presetSelector"
+            app:layout_constraintTop_toBottomOf="@+id/view3" android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/tableLayout" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintVertical_bias="0.0"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
