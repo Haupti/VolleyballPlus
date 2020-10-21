@@ -49,6 +49,25 @@ interface DatabaseManager {
     fun saveGameDatabaseJSON(gamesList: String) : DatabaseResponse
 
     /*
+        Reads the settings database file to string.
+
+        Returns:
+        DatabaseResponse object with responseText being the JSON string of the file content
+     */
+    fun readSettingsDatabaseJSON() : DatabaseResponse
+
+    /*
+        Saves the settings database received as JSON string
+
+        Parameters:
+        settingsList - settings database, that is a list of settings, as a JSON string
+
+        Returns:
+        DataBaseResponse object containing the status code of the success or failure
+     */
+    fun saveSettingsDatabaseJSON(settingsList: String) : DatabaseResponse
+
+    /*
         Returns the Game object of the game database at position index
 
         Parameters:

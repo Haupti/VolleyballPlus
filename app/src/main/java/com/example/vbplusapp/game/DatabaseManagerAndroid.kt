@@ -1,22 +1,135 @@
 package com.example.vbplusapp.game
 
 import android.content.Context
+import com.google.gson.Gson
+import java.io.File
+import java.io.FileNotFoundException
+import java.lang.Exception
 
 class DatabaseManagerAndroid(_context: Context) : DatabaseManager {
     override val context: Context = _context
     override val path: String
         get() = context.filesDir.absolutePath
 
+    /*
+        Tries to read the database files. If that fails with
+        FileNotFound exception it creates the files. Any other
+        Exception and the function will simply report the fail
+     */
     override fun createDatabase(): DatabaseResponse {
-        TODO("Not yet implemented")
+        var response : DatabaseResponse = DatabaseResponse()
+        try {
+            try {
+                File(path + gameDatabaseName).readText()
+            } catch (ex: FileNotFoundException) { // in case of FileNotFound exception
+                File(path + gameDatabaseName).createNewFile()
+            }
+            try {
+                File(path + settingsDatabaseName).readText()
+            } catch (ex: FileNotFoundException) {
+                File(path + settingsDatabaseName).createNewFile()
+                File(path + settingsDatabaseName).writeText(Gson().toJson(mutableListOf(GameSettings())))
+            }
+        }catch (ex: Exception){ // in case of other exception
+            response.responseState = FAILED
+            response.errorMessage = ex.message.toString()
+            return response
+        }
+        response.responseState = OK
+        return response
     }
 
+
     override fun readGameDatabaseJSON(): DatabaseResponse {
-        TODO("Not yet implemented")
+        var response : DatabaseResponse = DatabaseResponse()
+        try {
+            response.responseText  = File(path + gameDatabaseName).readText()
+            response.responseState = OK
+        }
+        catch (ex: Exception){
+            response.responseState = FAILED
+            response.errorMessage  = ex.message.toString()
+        }
+        return response
     }
 
     override fun saveGameDatabaseJSON(gamesList: String): DatabaseResponse {
-        TODO("Not yet implemented")
+        var response: DatabaseResponse = DatabaseResponse()
+        try {
+            File(path + gameDatabaseName).writeText(gamesList)
+            response.responseState = OK
+        }
+        catch (ex: Exception){
+            response.responseState = FAILED
+            response.errorMessage  = ex.message.toString()
+        }
+        return response
+    }
+
+    override fun readSettingsDatabaseJSON(): DatabaseResponse {
+        var response : DatabaseResponse = DatabaseResponse()
+        try {
+            response.responseText  = File(path + settingsDatabaseName).readText()
+            response.responseState = OK
+        }
+        catch (ex: Exception){
+            response.responseState = FAILED
+            response.errorMessage  = ex.message.toString()
+        }
+        return response
+    }
+
+    override fun saveSettingsDatabaseJSON(settingsList: String): DatabaseResponse {
+        var response: DatabaseResponse = DatabaseResponse()
+        try {
+            File(path + settingsDatabaseName).writeText(settingsList)
+            response.responseState = OK
+        }
+        catch (ex: Exception){
+            response.responseState = FAILED
+            response.errorMessage  = ex.message.toString()
+        }
+        return response
+    }
+
+
+
+    @Throws(Exception::class)
+    override fun getSettings(index: Int): GameSettings {
+        var response: DatabaseResponse = readGameDatabaseJSON()
+        if(response.responseState == FAILED){
+            throw Exception("ERROR: reading file failed")
+        }
+        var settingsDB: MutableList<GameSettings>
+                = Gson().fromJson(
+                    readGameDatabaseJSON().responseText,
+                    Array<GameSettings>::class.java
+                ).toMutableList()
+
+        return settingsDB[index]
+    }
+
+    override fun addSettings(settings: GameSettings): DatabaseResponse {
+        var response: DatabaseResponse = readGameDatabaseJSON()
+        var toSendResponse = DatabaseResponse()
+        var settingsDB: MutableList<GameSettings>
+
+        if(response.responseState == FAILED){
+            toSendResponse.responseState == FAILED
+            toSendResponse.errorMessage = response.errorMessage
+            return toSendResponse
+        }
+        else {
+            settingsDB = Gson().fromJson(
+                readGameDatabaseJSON().responseText,
+                Array<GameSettings>::class.java
+            ).toMutableList()
+        }
+
+        settingsDB.add(settings)
+        var settingsJSON: String = Gson().toJson(settingsDB, Array<GameSettings>::class.java)
+
+        return saveSettingsDatabaseJSON(settingsJSON)
     }
 
     override fun getGame(index: Int): Game {
@@ -24,14 +137,6 @@ class DatabaseManagerAndroid(_context: Context) : DatabaseManager {
     }
 
     override fun addGame(game: Game): DatabaseResponse {
-        TODO("Not yet implemented")
-    }
-
-    override fun getSettings(index: Int): GameSettings {
-        TODO("Not yet implemented")
-    }
-
-    override fun addSettings(settings: GameSettings): DatabaseResponse {
         TODO("Not yet implemented")
     }
 }

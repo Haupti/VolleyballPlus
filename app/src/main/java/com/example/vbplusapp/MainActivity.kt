@@ -10,6 +10,7 @@ import com.example.vbplusapp.game.*
 import com.example.vbplusapp.game.Set
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.gson.Gson
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,7 +19,8 @@ class MainActivity : AppCompatActivity() {
     private var game: Game = Game(GameSettings()) // Make game object with default game settings
     lateinit var dbMan: DatabaseManagerAndroid
 
-    fun initialize() {
+    private fun initialize() {
+        dbMan.createDatabase() // only works if the database files do not exist
         update() // calls the update function to display the loaded game (default)
     }
     /*
@@ -26,7 +28,8 @@ class MainActivity : AppCompatActivity() {
         Makes new game with those settings. This causes the old settings to be lost
      */
     private fun loadGameSettings(){
-        Toast.makeText(this,"Button pressed", Toast.LENGTH_LONG).show()
+        this.game = Game(dbMan.getSettings(0))
+        update()
     }
 
 
