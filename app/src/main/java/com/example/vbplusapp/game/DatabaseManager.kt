@@ -1,91 +1,95 @@
 package com.example.vbplusapp.game
 
+import android.content.Context
 import android.provider.ContactsContract
 
+/*
+Role of the DataBaseManager:
 
-interface DatabaseManager{
+load settings and game "database" files
+interpret the content and send back.
 
-    var response:DataBaseResponse
-    val path: String
+Should be able to handle all game package class objects
+ */
+interface DatabaseManager {
+
+    val context : Context
+    val path : String
+    val gameDatabaseName : String
+        get() = "VBP_Game.db"
+    val settingsDatabaseName : String
+        get() = "VBP_Settings.db"
+
     /*
         Creates a new database if there is none.
         Use the default filename. Do not give a filename, unless you know what you are doing.
 
         Returns:
-        DataBaseResponse object containing error message, response text and response state
+        DatabaseResponse object containing error message, response text and response state
      */
-    fun createDatabase(filename: String = "VolleyballPlusDB.db"):DataBaseResponse
-
+    fun createDatabase():DatabaseResponse
 
     /*
-        Saves a given game (VolleyBallPlus vbplus.Game class object) to the database.
-        Use the default filename. Do not give a filename, unless you know what you are doing.
+        Reads the game database file to string.
 
         Returns:
-        DataBaseResponse object containing error message, response text and response state
+        DatabaseResponse object with responseText being the JSON string of the file content
      */
-    fun saveGame(game: Game, filename: String = "VolleyballPlusDB.db"):DataBaseResponse
-
+    fun readGameDatabaseJSON() : DatabaseResponse
 
     /*
-        Loads all games saved in the database and returns them as a mutable list.
-        Use the default filename. Do not give a filename, unless you know what you are doing.
-
-        Returns:
-        DataBaseResponse object containing error message, response text and response state
-     */
-    fun loadAllGames(filename: String = "VolleyballPlusDB.db"):DataBaseResponse
-
-
-    /*
-        Loads the game with the ID given and returns it (VolleyballPlus vbplus.Game class object).
-        Use the default filename. Do not give a filename, unless you know what you are doing.
-
-        Returns:
-        DataBaseResponse object containing error message, response text and response state
-     */
-    fun loadGame(gameId: Int, filename: String = "VolleyballPlusDB.db"):DataBaseResponse
-
-    /*
-        Loads the settings file changed in the settings activity. This returns the data to load
-        a game with.
+        Saves the game database received as JSON string
 
         Parameters:
-        -Template name: String - can be the name of a saved settings template. If not given loads most recent
+        gamesList - game database, that is a list of games, as a JSON string
 
         Returns:
-        DataBaseResponse object containing error message, response text and response state
+        DataBaseResponse object containing the status code of the success or failure
      */
-    fun loadGameSettings(templateName: String = "latest"):DataBaseResponse
+    fun saveGameDatabaseJSON(gamesList: String) : DatabaseResponse
 
     /*
-        Saves the game Settings as a settings file with a given suffix.
-        Doesn't throw error.
+        Returns the Game object of the game database at position index
 
         Parameters:
-        -suffix name: String - suffix of the save of the game settings. Scheme will be: settings_suffixname.json
+        index of the game to be send back. Index is position in list
 
         Returns:
-        DataBaseResponse object containing error message, response text and response state
+        Game object on index position
      */
-    fun saveGameSettings(templateName: String = "latest", settingsJson: String):DataBaseResponse
+    fun getGame(index: Int) : Game
 
     /*
-        Reads the templates.json file and returns the list in it as Json string
-        The templates file contains a list of all settings templates
+        Adds a Game object to the game database
+
+        Parameters:
+        Game object - the game to add to the database
 
         Returns:
-        DataBaseResponse object containing a Json string with the String of the settings file names
+        DatabaseResponse object - containing status code
      */
-    fun getSettingsTemplatesJSON():DataBaseResponse
+    fun addGame(game: Game) : DatabaseResponse
 
     /*
-        Saves an additional template to the settings template list saved in the
-        templates.json file
+        Returns the GameSettings object in the game settings database at index
 
+        Parameters:
+        index - the index of the settings object to return
 
         Returns:
-        DataBaseResponse object with status code
+        DatabaseResponse object - containing status code
      */
-    fun addTemplateToList(templateName: String, settingsJson: String):DataBaseResponse
+    fun getSettings(index: Int) : GameSettings
+
+    /*
+        Adds a settings preset to the settings database
+
+        Parameters:
+        GameSettings object - the settings preset to save to database
+
+        Returns:
+        DatabaseResponse object - containing status code
+     */
+    fun addSettings(settings: GameSettings) : DatabaseResponse
+
 }

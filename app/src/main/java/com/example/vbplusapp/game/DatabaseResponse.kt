@@ -1,11 +1,10 @@
 package com.example.vbplusapp.game
 
-import java.util.logging.ErrorManager
-
-class DataBaseResponse {
+class DatabaseResponse {
     lateinit var responseText: String
     lateinit var errorMessage: String
     var responseState: Int = NOT_SET
+    var contentType: String = "NOT_SET"
 
     constructor(responseText: String, responseState: Int, errorMessage: String = ""){
         this.responseState = responseState
@@ -16,4 +15,5 @@ class DataBaseResponse {
         this.responseText = ""
         this.errorMessage = ""
     }
+
 }

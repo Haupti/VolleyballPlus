@@ -1,15 +1,22 @@
 package com.example.vbplusapp.game
 
-class Game(_winningSets: Int = 3, _pointsGap:Int = 2, _team1Name:String = "Team1", _team2Name:String = "Team2", _defaultPoints:Int = 25) {
-    var currentSet = 1;
-    var currentSetOver: Boolean = false
-    val winningSets = _winningSets
-    val setNumber = (_winningSets * 2) - 1
-    var setHistory: MutableList<Int> = MutableList(setNumber) {0}
-    var isOver: Boolean = false
-    var sets:MutableList<Set> = MutableList(setNumber){ Set(_defaultPoints, _pointsGap) }
-    var team1Name = _team1Name
-    var team2Name = _team2Name
+class Game constructor(settings: GameSettings = GameSettings()){
+    var settings: GameSettings = settings
+    var setNumber : Int
+    var currentSet : Int
+    var currentSetOver : Boolean
+    var setHistory: MutableList<Int>
+    var isOver: Boolean
+    var sets : MutableList<Set>
+
+    init {
+        this.setNumber = (this.settings.winScore * 2) - 1
+        this.currentSet = 1
+        this.currentSetOver = false
+        this.setHistory = MutableList(setNumber){0}
+        this.isOver = false
+        this.sets = MutableList(setNumber){ Set(this.settings.winScore, this.settings.getPointGap())}
+    }
 
 
     /*
@@ -50,10 +57,10 @@ class Game(_winningSets: Int = 3, _pointsGap:Int = 2, _team1Name:String = "Team1
         Point is a game point, if one team won winningSets - 1 sets, and the current point is a set point.
      */
     fun isGamePoint():Boolean {
-        if((setHistory.count{it == 1} == (winningSets - 1)) && sets[currentSet-1].isSetPoint()){
+        if((setHistory.count{it == 1} == (settings.winSets- 1)) && sets[currentSet-1].isSetPoint()){
             return true
         }
-        else if((setHistory.count{it == 2} == (winningSets -1)) && sets[currentSet-1].isSetPoint()){
+        else if((setHistory.count{it == 2} == (settings.winSets -1)) && sets[currentSet-1].isSetPoint()){
             return true
         }
         return false
@@ -65,7 +72,7 @@ class Game(_winningSets: Int = 3, _pointsGap:Int = 2, _team1Name:String = "Team1
          The game is over, if one of the teams has won winningSets number of sets.
      */
     private fun checkWinner(){
-        if((setHistory.count{it==1} == winningSets) || (setHistory.count{it==2} == winningSets)){
+        if((setHistory.count{it==1} == settings.winSets) || (setHistory.count{it==2} == settings.winSets)){
             this.isOver = true
         }
     }

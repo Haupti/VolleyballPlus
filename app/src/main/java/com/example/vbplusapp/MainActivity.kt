@@ -1,12 +1,9 @@
 package com.example.vbplusapp
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.example.vbplusapp.game.DataBaseManagerAndroid
-import com.example.vbplusapp.game.FILE_OPEN_FAILED
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.gson.Gson
 

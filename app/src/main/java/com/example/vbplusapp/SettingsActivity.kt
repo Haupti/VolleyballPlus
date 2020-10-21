@@ -1,17 +1,13 @@
 package com.example.vbplusapp
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_settings.*
 import com.google.gson.Gson
-import com.example.vbplusapp.game.DataBaseManagerAndroid as DBManager
 
 class SettingsActivity :
     AppCompatActivity()
