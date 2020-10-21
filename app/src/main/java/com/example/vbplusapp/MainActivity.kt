@@ -1,68 +1,34 @@
 package com.example.vbplusapp
 
+import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import com.example.vbplusapp.game.*
+import com.example.vbplusapp.game.Set
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.gson.Gson
 
-import com.example.vbplusapp.game.Game
-import com.example.vbplusapp.game.Set
-import com.example.vbplusapp.game.FAILED
-
 
 class MainActivity : AppCompatActivity() {
-    //default settings. Might need a better solution for that problem.
-    // The problem: first starting the app, then there is no templates.json and settings_latest.json file
-    // then the app needs to make that. But only for the first ever time the app is started.
-    private val defaultSettings: MutableList<String> = mutableListOf("3","2","Team1","Team2","25")
 
     //Other activity variables or values
-    lateinit var game: Game
-    lateinit var dbMan: DataBaseManagerAndroid
+    private var game: Game = Game(GameSettings()) // Make game object with default game settings
+    lateinit var dbMan: DatabaseManagerAndroid
 
-
+    fun initialize() {
+        update() // calls the update function to display the loaded game (default)
+    }
     /*
-        Initializes a new game based on the settings given
-
-        Parameters:
-        mutableList
-
-        Returns:
-        Game object
+        Loads the game settings chosen in the settings menu
+        Makes new game with those settings. This causes the old settings to be lost
      */
-    private fun makeGame(gameSettings: MutableList<String> = this.defaultSettings): Game {
-
-        //Returns a game object with the settings chosen. If none given, use default
-        return Game(gameSettings[0].toInt(),gameSettings[1].toInt(),
-                    gameSettings[2],gameSettings[3], gameSettings[4].toInt())
+    private fun loadGameSettings(){
+        Toast.makeText(this,"Button pressed", Toast.LENGTH_LONG).show()
     }
 
-    /*
-        Loads the game settings from the file with given file suffix,
-        then makes a new Game object with the given settings from file. If none are found
-        Game will be created with the Game classes default settings
-     */
-    private fun loadGameSettings(templateName:String){
-        var response = dbMan.loadGameSettings(templateName)
-        if (response.responseState == FAILED){
-            this.game = makeGame() // Use standard settings if loading failed
-            dbMan.addTemplateToList("latest",this.defaultSettings.toString())
-        }
-        else {
-            var responseText = response.responseText
-            var settingsList: MutableList<String> =
-                Gson().fromJson(responseText, Array<String>::class.java).toMutableList()
-            this.game = makeGame(settingsList)
-        }
-    }
-
-
-    private fun initialize(){
-        dbMan= DataBaseManagerAndroid(applicationContext)
-        this.game = makeGame() // Make a game with standard settings
-    }
 
     /*
         Sets the point scored button to invisible + next set button visible or vice versa
@@ -74,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         returns:
         nothing
     */
-    private fun updateButtons(game: Game){
+    private fun updateButtons(){
        if(game.sets[game.currentSet-1].isOver || game.isOver) { // if the current set is over show the next set button, hide two other
            team1ScoreUp.visibility = View.GONE
            team2ScoreUp.visibility = View.GONE
@@ -94,14 +60,14 @@ class MainActivity : AppCompatActivity() {
        }
     }
 
-    private fun refreshDisplay(game: Game){
+    private fun refreshDisplay(){
 
-        var currentSet: Set = game.sets[game.currentSet-1]
+        var currentSet: Set = this.game.sets[game.currentSet-1]
 
-        team1NameView.text = game.team1Name
-        team2NameView.text = game.team2Name
-        team1SetsView.text = game.setHistory.count{it==1}.toString()
-        team2SetsView.text = game.setHistory.count{it==2}.toString()
+        team1NameView.text = this.game.settings.team1Name
+        team2NameView.text = this.game.settings.team2Name
+        team1SetsView.text = this.game.setHistory.count{it==1}.toString()
+        team2SetsView.text = this.game.setHistory.count{it==2}.toString()
         team1ScoreView.text = currentSet.team1Score.toString()
         team2ScoreView.text = currentSet.team2Score.toString()
         //team1ScoreHistView.text = currentSet.team1ScoreHistory.toString()
@@ -116,20 +82,23 @@ class MainActivity : AppCompatActivity() {
         game: Game = the game object that is needed to show scores and stuff
      */
     private fun update(){
-        updateButtons(this.game)
-        refreshDisplay(this.game)
+        updateButtons()
+        refreshDisplay()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // START of init block
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //Initialization block
-        initialize()
-        refreshDisplay(this.game)
-        update()
-
         nextSetButton.visibility = View.GONE
+        this.dbMan = DatabaseManagerAndroid(applicationContext)
+        initialize() //Do not change this to init{} block! If you do, the app wont be able to
+                    // find applicationContext -> null pointer exception
+                    // because the context is created during the creation of the activity.
+                    // An init block would try to set the context before the Application is created
+                    // during the creation of the class!
+        // END of init block
 
         team1ScoreUp.setOnClickListener {
             this.game.addPoint(1)
@@ -157,9 +126,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         reloadButton.setOnClickListener {
-            this.loadGameSettings("latest")
-            refreshDisplay(this.game)
+            Toast.makeText(this, "Hold button to reload. \nThis will cause the current game to get lost",
+                Toast.LENGTH_LONG).show()
+        }
+
+        reloadButton.setOnLongClickListener {
+            loadGameSettings()
+            refreshDisplay()
             update()
+            return@setOnLongClickListener true
         }
 
     }
