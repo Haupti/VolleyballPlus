@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         Makes new game with those settings. This causes the old settings to be lost
      */
     private fun loadGameSettings(){
-        this.game = Game(dbMan.getSettings(0))
+        this.game = Game(dbMan.getSettings(-1))
         update()
     }
 

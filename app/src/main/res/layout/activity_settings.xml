@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".SettingsActivity">
+        tools:context=".SettingsActivity" android:visibility="visible">
     <View
             android:layout_width="match_parent"
             android:layout_height="130dp" android:id="@+id/view3"
@@ -58,18 +58,7 @@
                     android:ems="10"
                     android:id="@+id/winningScoreEdit" android:hint="25" android:singleLine="true"/>
         </TableRow>
-        <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
-            <TextView
-                    android:text="Point gap"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/textView7" android:textSize="18sp"/>
-            <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:id="@+id/pointGapEdit" android:hint="2" android:singleLine="true"/>
-        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent"/>
         <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -104,7 +93,7 @@
             android:visibility="invisible"/>
     <Button
             android:layout_width="75dp"
-            android:layout_height="75dp" android:id="@+id/applySettingsButton"
+            android:layout_height="75dp" android:id="@+id/saveSettingsButton"
             app:layout_constraintTop_toBottomOf="@+id/divider4"
             app:layout_constraintBottom_toBottomOf="@+id/divider5"
             app:layout_constraintStart_toStartOf="parent" android:foreground="@android:drawable/ic_menu_save"
@@ -127,10 +116,13 @@
             app:layout_constraintHorizontal_bias="1.0" app:layout_constraintVertical_bias="0.0"
             android:foreground="@android:drawable/ic_menu_close_clear_cancel" android:background="#00FFFFFF"
             style="@style/Widget.AppCompat.Button.Borderless"/>
-    <Spinner
-            android:layout_width="409dp"
-            android:layout_height="wrap_content" android:id="@+id/presetSelector"
-            app:layout_constraintTop_toBottomOf="@+id/view3" android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/tableLayout" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintVertical_bias="0.0"/>
+    <Switch
+            android:text="Save as new template"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/newTemplateSwitch"
+            app:layout_constraintStart_toEndOf="@+id/divider5" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tableLayout"
+            app:layout_constraintBottom_toTopOf="@+id/divider4" app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintVertical_bias="0.74" android:textColor="@color/colorPrimaryDark"
+            android:visibility="invisible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

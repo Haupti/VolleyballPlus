@@ -8,24 +8,24 @@
         tools:context=".MainActivity" android:scrollbarSize="25dp" android:scaleX="1" android:scaleY="1"
         android:background="#00FFFFFF" android:foreground="#009C9C9C">
     <View
-            android:layout_width="413dp"
-            android:layout_height="501dp" android:id="@+id/view"
+            android:layout_width="400dp"
+            android:id="@+id/view"
             android:foreground="@drawable/ic_vbp_launcher_foreground"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="@+id/divider3"
             app:layout_constraintTop_toTopOf="@+id/divider" android:background="#00FFFDFD"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" android:layout_height="400dp"/>
     <View
             android:layout_width="match_parent"
             android:layout_height="130dp" android:id="@+id/view2" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/reverse" app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.0" android:foreground="@android:drawable/title_bar"/>
+            app:layout_constraintBottom_toBottomOf="@+id/reverse" app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintVertical_bias="0.142" android:foreground="@android:drawable/title_bar"/>
     <Button
             android:layout_width="75dp"
             android:layout_height="75dp" android:id="@+id/settings"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="1.0" android:foreground="@android:drawable/ic_menu_preferences"
             android:background="#00FFFFFF" android:layout_marginRight="28dp"
@@ -36,7 +36,7 @@
             android:layout_height="75dp" android:id="@+id/reverse"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="#009C9C9C"
             android:foreground="@android:drawable/ic_menu_revert" app:layout_constraintBottom_toTopOf="@+id/divider2"
@@ -47,12 +47,12 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="28dp"
+            app:layout_constraintHorizontal_bias="0.017"
+            android:layout_marginTop="20dp"
             android:background="#00FFFFFF" android:layout_marginLeft="28dp"
             app:layout_constraintBottom_toTopOf="@+id/divider2" app:layout_constraintVertical_bias="0.0"
             style="@style/Widget.AppCompat.Button.Borderless" android:drawableTop="@android:drawable/ic_menu_upload"
-            android:text="Reload" android:textColor="@color/colorPrimaryDark"/>
+            android:text="Load Settings" android:textColor="@color/colorPrimaryDark"/>
     <Button
             android:layout_width="75dp"
             android:layout_height="75dp" android:id="@+id/team1ScoreUp"
@@ -153,4 +153,9 @@
             app:layout_constraintTop_toBottomOf="@+id/team1ScoreView"
             android:drawableBottom="@android:drawable/ic_menu_add" style="@style/Widget.AppCompat.Button.Borderless"
             android:textColor="@color/colorPrimaryDark" android:textSize="25dp" android:scaleX="1" android:scaleY="1"/>
+    <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/spinner4"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/reverse"
+            app:layout_constraintBottom_toBottomOf="@+id/view2" app:layout_constraintVertical_bias="1.0"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

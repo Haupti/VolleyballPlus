@@ -96,21 +96,22 @@ class DatabaseManagerAndroid(_context: Context) : DatabaseManager {
 
     @Throws(Exception::class)
     override fun getSettings(index: Int): GameSettings {
-        var response: DatabaseResponse = readGameDatabaseJSON()
+        var response: DatabaseResponse = readSettingsDatabaseJSON()
         if(response.responseState == FAILED){
             throw Exception("ERROR: reading file failed")
         }
         var settingsDB: MutableList<GameSettings>
                 = Gson().fromJson(
-                    readGameDatabaseJSON().responseText,
+                    readSettingsDatabaseJSON().responseText,
                     Array<GameSettings>::class.java
                 ).toMutableList()
 
+        if(index == -1){ return settingsDB.last() }
         return settingsDB[index]
     }
 
     override fun addSettings(settings: GameSettings): DatabaseResponse {
-        var response: DatabaseResponse = readGameDatabaseJSON()
+        var response: DatabaseResponse = readSettingsDatabaseJSON()
         var toSendResponse = DatabaseResponse()
         var settingsDB: MutableList<GameSettings>
 
@@ -121,13 +122,13 @@ class DatabaseManagerAndroid(_context: Context) : DatabaseManager {
         }
         else {
             settingsDB = Gson().fromJson(
-                readGameDatabaseJSON().responseText,
+                readSettingsDatabaseJSON().responseText,
                 Array<GameSettings>::class.java
             ).toMutableList()
         }
 
         settingsDB.add(settings)
-        var settingsJSON: String = Gson().toJson(settingsDB, Array<GameSettings>::class.java)
+        var settingsJSON: String = Gson().toJson(settingsDB)
 
         return saveSettingsDatabaseJSON(settingsJSON)
     }
