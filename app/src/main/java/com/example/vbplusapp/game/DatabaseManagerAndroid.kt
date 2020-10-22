@@ -133,6 +133,13 @@ class DatabaseManagerAndroid(_context: Context) : DatabaseManager {
         return saveSettingsDatabaseJSON(settingsJSON)
     }
 
+    override fun getSettingsDatabase(): MutableList<GameSettings> {
+        return Gson().fromJson(
+            this.readSettingsDatabaseJSON().responseText,
+            Array<GameSettings>::class.java
+        ).toMutableList()
+    }
+
     override fun getGame(index: Int): Game {
         TODO("Not yet implemented")
     }

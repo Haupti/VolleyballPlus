@@ -111,4 +111,6 @@ interface DatabaseManager {
      */
     fun addSettings(settings: GameSettings) : DatabaseResponse
 
+    fun getSettingsDatabase() : MutableList<GameSettings>
+
 }

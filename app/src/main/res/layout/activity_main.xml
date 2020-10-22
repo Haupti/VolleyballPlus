@@ -155,7 +155,7 @@
             android:textColor="@color/colorPrimaryDark" android:textSize="25dp" android:scaleX="1" android:scaleY="1"/>
     <Spinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/spinner4"
+            android:layout_height="wrap_content" android:id="@+id/settingsPresetSpinner"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/reverse"
             app:layout_constraintBottom_toBottomOf="@+id/view2" app:layout_constraintVertical_bias="1.0"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

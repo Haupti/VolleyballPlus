@@ -5,6 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.vbplusapp.game.*
 import com.example.vbplusapp.game.Set
@@ -89,6 +91,14 @@ class MainActivity : AppCompatActivity() {
         refreshDisplay()
     }
 
+    private fun getSettingsNameList() : MutableList<String> {
+        var settingsList: MutableList<GameSettings> = dbMan.getSettingsDatabase()
+        var namesList: MutableList<String> = MutableList(0) {""}
+        settingsList.filterNotNull().forEach {
+            namesList.add(it.templateName)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // START of init block
@@ -138,6 +148,28 @@ class MainActivity : AppCompatActivity() {
             refreshDisplay()
             update()
             return@setOnLongClickListener true
+        }
+
+        /*
+            Spinner for choosing game settings to load
+         */
+        //first the data that will be in the spinner. we need an adapter for that
+        val settingsList: MutableList<String> = getSettingsNameList()
+        val adapter = ArrayAdapter<String>(
+            this,
+            R.layout.support_simple_spinner_dropdown_item ,
+            settingsList
+        )
+
+        settingsPresetSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
         }
 
     }
