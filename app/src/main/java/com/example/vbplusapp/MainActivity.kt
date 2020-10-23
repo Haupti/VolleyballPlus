@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     //Other activity variables or values
     private var game: Game = Game(GameSettings()) // Make game object with default game settings
     lateinit var dbMan: DatabaseManagerAndroid
+    private var settingsToLoadID = -1
 
     private fun initialize() {
         dbMan.createDatabase() // only works if the database files do not exist
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         Makes new game with those settings. This causes the old settings to be lost
      */
     private fun loadGameSettings(){
-        this.game = Game(dbMan.getSettings(-1))
+        this.game = Game(dbMan.getSettings(this.settingsToLoadID))
         update()
     }
 
@@ -97,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         settingsList.filterNotNull().forEach {
             namesList.add(it.templateName)
         }
+        return namesList
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -160,14 +162,14 @@ class MainActivity : AppCompatActivity() {
             R.layout.support_simple_spinner_dropdown_item ,
             settingsList
         )
+        settingsPresetSpinner.adapter = adapter
 
         settingsPresetSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                TODO("Not yet implemented")
+                settingsToLoadID = id.toInt()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
             }
 
         }
