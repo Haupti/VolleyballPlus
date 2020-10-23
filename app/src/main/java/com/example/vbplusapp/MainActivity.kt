@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
         val settingsList: MutableList<String> = getSettingsNameList()
         val adapter = ArrayAdapter<String>(
             this,
-            R.layout.support_simple_spinner_dropdown_item ,
+            R.layout.custom_spinner,
             settingsList
         )
         settingsPresetSpinner.adapter = adapter

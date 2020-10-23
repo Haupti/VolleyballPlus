@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.CompoundButton
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.vbplusapp.game.DatabaseManagerAndroid
@@ -63,44 +64,15 @@ class SettingsActivity : AppCompatActivity() {
             saveTemporaryGameSettings()
         }
 
-
-        /*
-        /*
-            Definition of the settings template spinner
-         */
-        var settingsTemplatesList: MutableList<String> =
-            Gson().fromJson(dbMan.getSettingsTemplatesJSON().responseText, Array<String>::class.java).toMutableList()
-        val adapter = ArrayAdapter<String>(
-            this,
-            R.layout.support_simple_spinner_dropdown_item,
-            settingsTemplatesList
-        )
-        presetSelector.adapter = adapter
-
-        presetSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                //Loads the settings selected and prints them to the display elements in the app
-                var settingsList: MutableList<String> =
-                    Gson().fromJson(
-                        dbMan.loadGameSettings(parent?.getItemAtPosition(position).toString()).responseText,
-                        Array<String>::class.java
-                    ).toMutableList()
-                winningSetsEdit.setText(settingsList[0])
-                pointGapEdit.setText(settingsList[1])
-                team1NameEdit.setText(settingsList[2])
-                team2NameEdit.setText(settingsList[3])
-                winningScoreEdit.setText(settingsList[4])
+        newTemplateSwitch.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
+            if(compoundButton.isChecked){
+                templateNameRow.visibility = View.VISIBLE
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
+            else if(!compoundButton.isChecked){
+                templateNameRow.visibility = View.INVISIBLE
+                templateNameEdit.setText("")
             }
-
         }
-
-         */
-
 
     }
 }
