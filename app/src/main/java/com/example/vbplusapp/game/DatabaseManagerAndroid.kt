@@ -1,6 +1,7 @@
 package com.example.vbplusapp.game
 
 import android.content.Context
+import com.example.vbplusapp.AppState
 import com.google.gson.Gson
 import java.io.File
 import java.io.FileNotFoundException
@@ -138,6 +139,30 @@ class DatabaseManagerAndroid(_context: Context) : DatabaseManager {
             this.readSettingsDatabaseJSON().responseText,
             Array<GameSettings>::class.java
         ).toMutableList()
+    }
+
+    override fun saveState(state: AppState) : DatabaseResponse {
+        var response = DatabaseResponse()
+        try {
+            File(path + stateFileName).writeText(
+                Gson().toJson(state, AppState::class.java)
+            )
+        }
+        catch (ex: FileNotFoundException){
+            File(path + stateFileName).createNewFile()
+            File(path + stateFileName).writeText(
+                Gson().toJson(state, AppState::class.java)
+            )
+        }
+        response.responseState = OK
+        return response
+    }
+
+    override fun loadState() : AppState {
+        return Gson().fromJson(
+            File(path + stateFileName).readText(),
+            AppState::class.java
+        )
     }
 
     override fun getGame(index: Int): Game {

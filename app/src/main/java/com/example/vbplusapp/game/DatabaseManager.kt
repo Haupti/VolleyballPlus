@@ -2,6 +2,7 @@ package com.example.vbplusapp.game
 
 import android.content.Context
 import android.provider.ContactsContract
+import com.example.vbplusapp.AppState
 
 /*
 Role of the DataBaseManager:
@@ -19,7 +20,8 @@ interface DatabaseManager {
         get() = "VBP_Game.db"
     val settingsDatabaseName : String
         get() = "VBP_Settings.db"
-
+    val stateFileName: String
+        get() = "appState.json"
     /*
         Creates a new database if there is none.
         Use the default filename. Do not give a filename, unless you know what you are doing.
@@ -111,6 +113,31 @@ interface DatabaseManager {
      */
     fun addSettings(settings: GameSettings) : DatabaseResponse
 
+    /*
+        Loads the settings list from file and returns it
+
+        Returns:
+        settingsDatabase - list of all settings presets
+     */
     fun getSettingsDatabase() : MutableList<GameSettings>
+
+    /*
+        Saves the current state of the application to file
+
+        Parameters:
+        state - state object of the application
+
+        Returns:
+        DatabaseResponse object - containing state code
+     */
+    fun saveState(state: AppState) : DatabaseResponse
+
+    /*
+        Loads the current app state (last) from file
+
+        Returns:
+        AppState object - last saved state of the app
+     */
+    fun loadState() : AppState
 
 }

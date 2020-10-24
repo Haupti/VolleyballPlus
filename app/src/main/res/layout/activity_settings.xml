@@ -21,6 +21,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view3" app:layout_constraintBottom_toBottomOf="@+id/view3"
             app:layout_constraintVertical_bias="1.0"/>
+    <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/settingsPresetSelectionSpinner"
+            app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+            app:layout_constraintTop_toBottomOf="@+id/view3" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintVertical_bias="0.0"/>
     <TableLayout
             android:layout_width="349dp"
             android:layout_height="261dp" app:layout_constraintEnd_toEndOf="parent"

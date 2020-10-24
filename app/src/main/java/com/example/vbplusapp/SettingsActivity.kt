@@ -14,6 +14,7 @@ import com.google.gson.Gson
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var dbMan: DatabaseManagerAndroid
+    private var settingsToLoadID = -1
     /*
         Saves the currently displayed settings to the settings database on position 0
         such that it will reload in main activity if reload is pressed
@@ -46,6 +47,14 @@ class SettingsActivity : AppCompatActivity() {
         TODO()
     }
 
+    private fun getSettingsNameList() : MutableList<String> {
+        var settingsList: MutableList<GameSettings> = dbMan.getSettingsDatabase()
+        var namesList: MutableList<String> = MutableList(0) {""}
+        settingsList.filterNotNull().forEach {
+            namesList.add(it.templateName)
+        }
+        return namesList
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -74,5 +83,26 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+        /*
+            Spinner for choosing game settings to load
+         */
+        //first the data that will be in the spinner. we need an adapter for that
+        val settingsList: MutableList<String> = getSettingsNameList()
+        val adapter = ArrayAdapter<String>(
+            this,
+            R.layout.custom_spinner,
+            settingsList
+        )
+        settingsPresetSelectionSpinner.adapter = adapter
+
+        settingsPresetSelectionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                settingsToLoadID = id.toInt()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+        }
     }
 }

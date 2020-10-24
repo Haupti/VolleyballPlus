@@ -14,16 +14,17 @@ import kotlinx.android.synthetic.main.activity_main.*
 import com.google.gson.Gson
 import java.lang.Exception
 
-
 class MainActivity : AppCompatActivity() {
 
     //Other activity variables or values
-    private var game: Game = Game(GameSettings()) // Make game object with default game settings
+    private lateinit var state: AppState
+    private lateinit var game: Game // will be set to the states game in the init function
     lateinit var dbMan: DatabaseManagerAndroid
-    private var settingsToLoadID = -1
 
     private fun initialize() {
         dbMan.createDatabase() // only works if the database files do not exist
+        state = dbMan.loadState()
+        game = state.activeGame
         update() // calls the update function to display the loaded game (default)
     }
     /*
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         Makes new game with those settings. This causes the old settings to be lost
      */
     private fun loadGameSettings(){
-        this.game = Game(dbMan.getSettings(this.settingsToLoadID))
+        this.game = Game(dbMan.getSettings(state.settingsPresetSelected))
         update()
     }
 
@@ -92,14 +93,6 @@ class MainActivity : AppCompatActivity() {
         refreshDisplay()
     }
 
-    private fun getSettingsNameList() : MutableList<String> {
-        var settingsList: MutableList<GameSettings> = dbMan.getSettingsDatabase()
-        var namesList: MutableList<String> = MutableList(0) {""}
-        settingsList.filterNotNull().forEach {
-            namesList.add(it.templateName)
-        }
-        return namesList
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -132,7 +125,7 @@ class MainActivity : AppCompatActivity() {
 
         settings.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, 0 )
         }
 
         nextSetButton.setOnClickListener{
@@ -152,27 +145,6 @@ class MainActivity : AppCompatActivity() {
             return@setOnLongClickListener true
         }
 
-        /*
-            Spinner for choosing game settings to load
-         */
-        //first the data that will be in the spinner. we need an adapter for that
-        val settingsList: MutableList<String> = getSettingsNameList()
-        val adapter = ArrayAdapter<String>(
-            this,
-            R.layout.custom_spinner,
-            settingsList
-        )
-        settingsPresetSpinner.adapter = adapter
-
-        settingsPresetSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                settingsToLoadID = id.toInt()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-
-        }
 
     }
 
