@@ -1,6 +1,7 @@
 package com.example.vbplusapp
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -14,12 +15,12 @@ import com.google.gson.Gson
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var dbMan: DatabaseManagerAndroid
-    private var settingsToLoadID = -1
+    private lateinit var state: AppState
     /*
         Saves the currently displayed settings to the settings database on position 0
         such that it will reload in main activity if reload is pressed
      */
-    private fun saveTemporaryGameSettings(){
+    private fun saveGameSettings(name : String){
         var settings: GameSettings = GameSettings()
 
         //it is sufficient to only set the values if there is something typed in
@@ -36,15 +37,19 @@ class SettingsActivity : AppCompatActivity() {
         if ( team2NameEdit.text.toString() != "") {
             settings.team2Name = team2NameEdit.text.toString()
         }
+        settings.templateName = name
         dbMan.addSettings(settings)
     }
 
-    /*
-        Saves the currently displayed settings to the settings database at the end
-        such that it can be choosen from the spinner later
-     */
-    fun saveNewSettingsPreset(settings: GameSettings){
-        TODO()
+
+    fun displaySettingsPreset(){
+        var settings = dbMan.getSettings(state.settingsPresetSelected)
+        team1NameEdit.text = Editable.Factory.getInstance().newEditable( settings.team1Name )
+        team2NameEdit.text = Editable.Factory.getInstance().newEditable( settings.team2Name )
+        winningScoreEdit.text = Editable.Factory.getInstance().newEditable(settings.winScore.toString())
+        winningSetsEdit.text = Editable.Factory.getInstance().newEditable( settings.winSets.toString() )
+        templateNameEdit.text = Editable.Factory.getInstance().newEditable( settings.templateName )
+        newTemplateSwitch.isChecked = true
     }
 
     private fun getSettingsNameList() : MutableList<String> {
@@ -62,6 +67,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         this.dbMan = DatabaseManagerAndroid(applicationContext)
+        this.state = dbMan.loadState()
 
 
         //Simply go back to the MainActivity
@@ -70,10 +76,11 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         saveSettingsButton.setOnClickListener {
-            saveTemporaryGameSettings()
+            if ( templateNameEdit.text.toString() == "" ) saveGameSettings( "latest" )
+            else saveGameSettings( templateNameEdit.text.toString() )
         }
 
-        newTemplateSwitch.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
+        newTemplateSwitch.setOnCheckedChangeListener { compoundButton: CompoundButton, _: Boolean ->
             if(compoundButton.isChecked){
                 templateNameRow.visibility = View.VISIBLE
             }
@@ -97,7 +104,9 @@ class SettingsActivity : AppCompatActivity() {
 
         settingsPresetSelectionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                settingsToLoadID = id.toInt()
+                state.settingsPresetSelected = id.toInt()
+                dbMan.saveState(state)
+                displaySettingsPreset()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -105,4 +114,5 @@ class SettingsActivity : AppCompatActivity() {
 
         }
     }
+
 }

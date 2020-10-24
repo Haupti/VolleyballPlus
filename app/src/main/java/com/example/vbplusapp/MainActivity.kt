@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var dbMan: DatabaseManagerAndroid
 
     private fun initialize() {
-        dbMan.createDatabase() // only works if the database files do not exist
-        state = dbMan.loadState()
-        game = state.activeGame
+        this.dbMan.createDatabase() // only works if the database files do not exist
+        this.state = dbMan.loadState()
+        this.game = state.activeGame
         update() // calls the update function to display the loaded game (default)
     }
     /*
@@ -91,6 +91,7 @@ class MainActivity : AppCompatActivity() {
     private fun update(){
         updateButtons()
         refreshDisplay()
+        dbMan.saveState(state)
     }
 
 
@@ -146,6 +147,14 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        this.state = dbMan.loadState()
+        update()
     }
 
 

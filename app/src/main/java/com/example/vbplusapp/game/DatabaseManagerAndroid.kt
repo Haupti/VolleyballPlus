@@ -128,8 +128,15 @@ class DatabaseManagerAndroid(_context: Context) : DatabaseManager {
             ).toMutableList()
         }
 
-        settingsDB.add(settings)
+        if ( settings.templateName == "latest"){
+            settings.templateName = "Latest"
+            settingsDB[0] = settings
+        }
+        else {
+            settingsDB.add(settings)
+        }
         var settingsJSON: String = Gson().toJson(settingsDB)
+
 
         return saveSettingsDatabaseJSON(settingsJSON)
     }
@@ -159,6 +166,15 @@ class DatabaseManagerAndroid(_context: Context) : DatabaseManager {
     }
 
     override fun loadState() : AppState {
+        try {
+            return Gson().fromJson(
+                File(path + stateFileName).readText(),
+                AppState::class.java
+            )
+        }
+        catch (ex: FileNotFoundException){
+            saveState(AppState())
+        }
         return Gson().fromJson(
             File(path + stateFileName).readText(),
             AppState::class.java
