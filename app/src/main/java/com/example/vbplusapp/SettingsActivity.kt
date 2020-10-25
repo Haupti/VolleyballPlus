@@ -3,10 +3,7 @@ package com.example.vbplusapp
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.CompoundButton
-import android.widget.EditText
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.vbplusapp.game.DatabaseManagerAndroid
 import com.example.vbplusapp.game.GameSettings
@@ -49,7 +46,6 @@ class SettingsActivity : AppCompatActivity() {
         winningScoreEdit.text = Editable.Factory.getInstance().newEditable(settings.winScore.toString())
         winningSetsEdit.text = Editable.Factory.getInstance().newEditable( settings.winSets.toString() )
         templateNameEdit.text = Editable.Factory.getInstance().newEditable( settings.templateName )
-        newTemplateSwitch.isChecked = true
     }
 
     private fun getSettingsNameList() : MutableList<String> {
@@ -72,22 +68,19 @@ class SettingsActivity : AppCompatActivity() {
 
         //Simply go back to the MainActivity
         closeSettingsButton.setOnClickListener {
+            saveGameSettings("latest")
             finish()
         }
 
         saveSettingsButton.setOnClickListener {
-            if ( templateNameEdit.text.toString() == "" ) saveGameSettings( "latest" )
-            else saveGameSettings( templateNameEdit.text.toString() )
+            Toast.makeText(this, "Hold to save new Template", Toast.LENGTH_LONG).show()
         }
 
-        newTemplateSwitch.setOnCheckedChangeListener { compoundButton: CompoundButton, _: Boolean ->
-            if(compoundButton.isChecked){
-                templateNameRow.visibility = View.VISIBLE
-            }
-            else if(!compoundButton.isChecked){
-                templateNameRow.visibility = View.INVISIBLE
-                templateNameEdit.setText("")
-            }
+        saveSettingsButton.setOnLongClickListener {
+            if ( templateNameEdit.text.toString() == "" ) saveGameSettings( "latest" )
+            else saveGameSettings( templateNameEdit.text.toString() )
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
+            return@setOnLongClickListener true
         }
 
         /*

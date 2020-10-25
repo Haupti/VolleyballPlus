@@ -8,6 +8,7 @@ class Game constructor(settings: GameSettings = GameSettings()){
     var setHistory: MutableList<Int>
     var isOver: Boolean
     var sets : MutableList<Set>
+    var servingTeamNumber : Int = 0
 
     init {
         this.setNumber = (this.settings.winScore * 2) - 1
@@ -27,6 +28,7 @@ class Game constructor(settings: GameSettings = GameSettings()){
         if(!sets[currentSet-1].isOver) {
             sets[currentSet-1].addPoint(teamNumber)
             setHistory[currentSet-1] = sets[currentSet-1].checkWinner()
+            servingTeamNumber = teamNumber
             checkWinner() // this is the games checkWinner function. does something else as the sets checkWinner function
             return true
         }
@@ -44,6 +46,7 @@ class Game constructor(settings: GameSettings = GameSettings()){
             this.setHistory[currentSet-1] = sets[currentSet-1].checkWinner()
             currentSet += 1
             currentSetOver = false
+            servingTeamNumber = 0
             return true
         }
         return false

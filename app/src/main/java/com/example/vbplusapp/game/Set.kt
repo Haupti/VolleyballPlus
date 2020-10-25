@@ -8,6 +8,7 @@ class Set (_defaultPoints:Int = 25, _pointGap: Int = 2){
     var team1ScoreHistory: MutableList<Int> = MutableList(1) {0}
     var team2ScoreHistory: MutableList<Int> = MutableList(1) {0}
     var isOver:Boolean = false
+    var teamThatHasSetPoint : Int = 0
 
     /*
         Adds a score point to the team with number teamNumber
@@ -29,6 +30,7 @@ class Set (_defaultPoints:Int = 25, _pointGap: Int = 2){
             }
         }
         checkWinner()
+        isSetPoint()
     }
 
     /*
@@ -56,8 +58,15 @@ class Set (_defaultPoints:Int = 25, _pointGap: Int = 2){
         or higher
      */
     fun isSetPoint() : Boolean{
-        if(team1Score >= (defaultPoints - 1) && (team2Score + pointGap - 1) <= team1Score){ return true }
-        else if (team2Score >= (defaultPoints - 1) && (team1Score + pointGap - 1) <= team2Score){return true }
+        if(team1Score >= (defaultPoints - 1) && (team2Score + pointGap - 1) <= team1Score){
+            teamThatHasSetPoint = 1
+            return true
+        }
+        else if (team2Score >= (defaultPoints - 1) && (team1Score + pointGap - 1) <= team2Score){
+            teamThatHasSetPoint = 2
+            return true
+        }
+        teamThatHasSetPoint = 0
         return false
     }
 

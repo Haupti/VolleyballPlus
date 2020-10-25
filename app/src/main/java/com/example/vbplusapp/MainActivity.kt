@@ -2,12 +2,14 @@ package com.example.vbplusapp
 
 import android.app.Application
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.vbplusapp.game.*
 import com.example.vbplusapp.game.Set
 import kotlinx.android.synthetic.main.activity_main.*
@@ -67,6 +69,43 @@ class MainActivity : AppCompatActivity() {
        }
     }
 
+    private fun updateSetPointHighlight(){
+        when ( game.sets[game.currentSet-1].teamThatHasSetPoint ) {
+            0 -> {
+                team1ScoreView.setTextColor(ContextCompat.getColor(this,R.color.colorPrimaryDark))
+                team2ScoreView.setTextColor(ContextCompat.getColor(this,R.color.colorPrimaryDark))
+            }
+            1 -> {
+                team1ScoreView.setTextColor(ContextCompat.getColor(this,R.color.colorAccent))
+                team2ScoreView.setTextColor(ContextCompat.getColor(this,R.color.colorPrimaryDark))
+                Toast.makeText(this, "Set Point!", Toast.LENGTH_SHORT).show()
+            }
+            2 -> {
+                team1ScoreView.setTextColor(ContextCompat.getColor(this,R.color.colorPrimaryDark))
+                team2ScoreView.setTextColor(ContextCompat.getColor(this,R.color.colorAccent))
+                Toast.makeText(this, "Set Point!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private fun updateServeMarker(){
+        when ( game.servingTeamNumber ){
+            0 -> {
+                team1ServesMarker.visibility = View.INVISIBLE
+                team2ServesMarker.visibility = View.INVISIBLE
+            }
+            1 -> {
+                team1ServesMarker.visibility = View.VISIBLE
+                team2ServesMarker.visibility = View.INVISIBLE
+            }
+            2 -> {
+                team1ServesMarker.visibility = View.INVISIBLE
+                team2ServesMarker.visibility = View.VISIBLE
+            }
+
+        }
+
+    }
+
     private fun refreshDisplay(){
 
         var currentSet: Set = this.game.sets[game.currentSet-1]
@@ -90,6 +129,8 @@ class MainActivity : AppCompatActivity() {
      */
     private fun update(){
         updateButtons()
+        updateServeMarker()
+        updateSetPointHighlight()
         refreshDisplay()
         dbMan.saveState(state)
     }
@@ -123,6 +164,10 @@ class MainActivity : AppCompatActivity() {
             this.game.sets[game.currentSet-1].reverseLastAction()
             update()
         }
+        reverse.setOnLongClickListener{
+            Toast.makeText(this, "Reverse last point granted.", Toast.LENGTH_LONG).show()
+            return@setOnLongClickListener true
+        }
 
         settings.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
@@ -140,6 +185,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         reloadButton.setOnLongClickListener {
+            Toast.makeText(this, "Loaded", Toast.LENGTH_SHORT).show()
             loadGameSettings()
             refreshDisplay()
             update()

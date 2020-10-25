@@ -6,69 +6,68 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity" android:scrollbarSize="25dp" android:scaleX="1" android:scaleY="1"
-        android:background="#00FFFFFF" android:foreground="#009C9C9C">
+        android:background="#00FFFFFF">
     <View
             android:layout_width="400dp"
             android:id="@+id/view"
             android:foreground="@drawable/ic_vbp_launcher_foreground"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="@+id/divider3"
             app:layout_constraintTop_toTopOf="@+id/divider" android:background="#00FFFDFD"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_height="400dp"/>
+            app:layout_constraintEnd_toEndOf="parent" android:layout_height="400dp"
+            app:layout_constraintVertical_bias="0.664" app:layout_constraintHorizontal_bias="0.454"/>
     <View
-            android:layout_width="match_parent"
-            android:layout_height="130dp" android:id="@+id/view2" app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="60dp" android:id="@+id/view2" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/reverse" app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintVertical_bias="0.142" android:foreground="@android:drawable/title_bar"/>
+            app:layout_constraintVertical_bias="0.142" android:foreground="@color/colorAccent"/>
     <Button
-            android:layout_width="75dp"
-            android:layout_height="75dp" android:id="@+id/settings"
+            android:layout_width="48dp"
+            android:layout_height="48dp" android:id="@+id/settings"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="1.0" android:foreground="@android:drawable/ic_menu_preferences"
+            app:layout_constraintHorizontal_bias="1.0" android:foreground="@drawable/ic_round_settings_48"
             android:background="#00FFFFFF" android:layout_marginRight="28dp"
-            app:layout_constraintBottom_toTopOf="@+id/divider2" app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintBottom_toTopOf="@+id/divider2"
             style="@style/Widget.AppCompat.Button.Borderless"/>
     <Button
-            android:layout_width="75dp"
-            android:layout_height="75dp" android:id="@+id/reverse"
+            android:layout_width="48dp"
+            android:layout_height="48dp" android:id="@+id/reverse"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="#009C9C9C"
-            android:foreground="@android:drawable/ic_menu_revert" app:layout_constraintBottom_toTopOf="@+id/divider2"
-            app:layout_constraintVertical_bias="0.0" style="@style/Widget.AppCompat.Button.Borderless"/>
+            android:foreground="@drawable/ic_round_remove_circle_48" app:layout_constraintBottom_toTopOf="@+id/divider2"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
     <Button
-            android:layout_width="75dp"
-            android:layout_height="75dp" android:id="@+id/reloadButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp" android:id="@+id/reloadButton"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.017"
-            android:layout_marginTop="20dp"
+            app:layout_constraintHorizontal_bias="0.0"
             android:background="#00FFFFFF" android:layout_marginLeft="28dp"
-            app:layout_constraintBottom_toTopOf="@+id/divider2" app:layout_constraintVertical_bias="0.0"
-            style="@style/Widget.AppCompat.Button.Borderless" android:drawableTop="@android:drawable/ic_menu_upload"
-            android:text="Load Settings" android:textColor="@color/colorPrimaryDark"/>
+            app:layout_constraintBottom_toTopOf="@+id/divider2"
+            style="@style/Widget.AppCompat.Button.Borderless" android:drawableTop="@drawable/ic_baseline_folder_open_48"
+            android:textColor="@color/colorPrimaryDark"
+    />
     <Button
             android:layout_width="75dp"
             android:layout_height="75dp" android:id="@+id/team1ScoreUp"
-            android:foreground="@android:drawable/ic_menu_add"
+            android:foreground="@drawable/ic_round_add_circle_72"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider2"
             app:layout_constraintTop_toBottomOf="@+id/divider3" android:layout_marginBottom="20dp"
-            style="@style/Widget.AppCompat.Button" android:background="#00FFFFFF"/>
+            style="@style/Widget.AppCompat.Button.Borderless" android:background="#009C9C9C"/>
     <Button
             android:layout_width="75dp"
             android:layout_height="75dp" android:id="@+id/team2ScoreUp"
-            android:foreground="@android:drawable/ic_menu_add"
+            android:foreground="@drawable/ic_round_add_circle_72"
             android:background="#00FFFFFF" app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="20dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider2"
-            app:layout_constraintTop_toBottomOf="@+id/divider3" style="@style/Widget.AppCompat.Button"/>
+            app:layout_constraintTop_toBottomOf="@+id/divider3" style="@style/Widget.AppCompat.Button.Borderless"/>
     <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
@@ -77,7 +76,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.197" android:visibility="invisible"/>
+            app:layout_constraintVertical_bias="0.06999999" android:visibility="invisible"/>
     <View
             android:id="@+id/divider2"
             android:layout_width="1dp"
@@ -99,58 +98,89 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/team1NameView"
             android:textSize="40dp" app:layout_constraintEnd_toStartOf="@+id/divider2"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="@+id/divider2"
-            app:layout_constraintBottom_toTopOf="@+id/team1SetsView"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.676" app:layout_constraintTop_toBottomOf="@+id/view2"
+            app:layout_constraintBottom_toTopOf="@+id/team1ScoreView"/>
     <TextView
             android:text="Team 2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/team2NameView"
             android:textSize="40dp" app:layout_constraintStart_toEndOf="@+id/divider2"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@+id/divider2"
-            app:layout_constraintBottom_toTopOf="@+id/team2SetsView"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.492" app:layout_constraintBottom_toTopOf="@+id/team2ScoreView"
+            app:layout_constraintTop_toBottomOf="@+id/view2"/>
     <TextView
             android:text="0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/team1SetsView"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toStartOf="@+id/divider2"
-            app:layout_constraintBottom_toTopOf="@+id/team1ScoreView" app:layout_constraintTop_toTopOf="@+id/divider2"
-            app:layout_constraintHorizontal_bias="0.918" app:layout_constraintVertical_bias="0.502"
-            android:textSize="25dp"/>
+            app:layout_constraintTop_toTopOf="@+id/divider2"
+            app:layout_constraintHorizontal_bias="0.952"
+            android:textSize="25dp" app:layout_constraintBottom_toTopOf="@+id/team1NameView"/>
     <TextView
             android:text="0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/team2SetsView"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@+id/divider2"
-            app:layout_constraintTop_toTopOf="@+id/divider2" app:layout_constraintBottom_toTopOf="@+id/team2ScoreView"
-            app:layout_constraintHorizontal_bias="0.071" app:layout_constraintVertical_bias="0.502"
-            android:textSize="25dp"/>
+            app:layout_constraintTop_toTopOf="@+id/divider2"
+            app:layout_constraintHorizontal_bias="0.052"
+            android:textSize="25dp" app:layout_constraintBottom_toTopOf="@+id/team2NameView"/>
     <TextView
             android:text=":"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/textView11"
             app:layout_constraintStart_toStartOf="@+id/divider2" app:layout_constraintEnd_toEndOf="@+id/divider2"
-            app:layout_constraintTop_toTopOf="@+id/divider2" app:layout_constraintBottom_toTopOf="@+id/team2ScoreView"
-            android:textSize="25dp"/>
+            app:layout_constraintTop_toTopOf="@+id/divider2"
+            android:textSize="25dp"
+            app:layout_constraintBottom_toTopOf="@+id/team2NameView"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/team1ScoreView"
             android:textSize="75dp" android:text="0" app:layout_constraintEnd_toStartOf="@+id/divider2"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toTopOf="@+id/divider3"
-            app:layout_constraintTop_toTopOf="@+id/divider2" android:textColor="@color/colorPrimaryDark"/>
+            app:layout_constraintTop_toTopOf="@+id/divider2" android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintHorizontal_bias="0.466" app:layout_constraintVertical_bias="0.65"/>
     <TextView
             android:text="0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/team2ScoreView"
             android:textSize="75dp" app:layout_constraintStart_toEndOf="@+id/divider2"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@+id/divider2"
-            app:layout_constraintBottom_toTopOf="@+id/divider3"/>
+            app:layout_constraintBottom_toTopOf="@+id/divider3" app:layout_constraintHorizontal_bias="0.533"
+            app:layout_constraintVertical_bias="0.65"/>
     <Button
-            android:text="Next Set"
+            android:text="next set"
             android:layout_width="150dp"
             android:layout_height="100dp" android:id="@+id/nextSetButton"
             app:layout_constraintStart_toStartOf="@+id/divider2" app:layout_constraintEnd_toEndOf="@+id/divider2"
             app:layout_constraintBottom_toTopOf="@+id/divider3"
             app:layout_constraintTop_toBottomOf="@+id/team1ScoreView"
-            android:drawableBottom="@android:drawable/ic_menu_add" style="@style/Widget.AppCompat.Button.Borderless"
-            android:textColor="@color/colorPrimaryDark" android:textSize="25dp" android:scaleX="1" android:scaleY="1"/>
+            android:drawableBottom="@drawable/ic_baseline_sports_volleyball_24"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textColor="@color/colorPrimaryDark" android:textSize="25dp" android:scaleX="1" android:scaleY="1"
+            app:layout_constraintVertical_bias="1.0" android:capitalize="none" android:textAllCaps="false"/>
+    <TextView
+            android:text=":"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/textView3"
+            android:textSize="75dp"
+            app:layout_constraintTop_toBottomOf="@+id/view2"
+            app:layout_constraintBottom_toBottomOf="@+id/nextSetButton"
+            app:layout_constraintVertical_bias="0.65" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.509" app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+            android:layout_width="48dp"
+            android:layout_height="48dp" android:id="@+id/team1ServesMarker"
+            android:foreground="@drawable/ic_twotone_sports_volleyball_96"
+            app:layout_constraintTop_toBottomOf="@+id/team1NameView"
+            app:layout_constraintBottom_toTopOf="@+id/team1ScoreView" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView3" app:layout_constraintVertical_bias="0.0"
+            android:visibility="invisible"/>
+    <TextView
+            android:layout_width="48dp"
+            android:layout_height="48dp" android:id="@+id/team2ServesMarker"
+            app:layout_constraintTop_toBottomOf="@+id/team2NameView"
+            app:layout_constraintBottom_toTopOf="@+id/team2ScoreView" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView3" app:layout_constraintVertical_bias="0.0"
+            android:foreground="@drawable/ic_twotone_sports_volleyball_96" android:visibility="invisible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

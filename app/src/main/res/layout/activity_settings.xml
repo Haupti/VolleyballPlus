@@ -7,10 +7,10 @@
         android:layout_height="match_parent"
         tools:context=".SettingsActivity" android:visibility="visible">
     <View
-            android:layout_width="match_parent"
-            android:layout_height="130dp" android:id="@+id/view3"
+            android:layout_width="0dp"
+            android:layout_height="60dp" android:id="@+id/view3"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:foreground="@color/colorPrimary" app:layout_constraintBottom_toBottomOf="parent"
+            android:foreground="@color/colorAccent" app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0.0"/>
     <View
             android:id="@+id/divider6"
@@ -22,11 +22,11 @@
             app:layout_constraintTop_toTopOf="@+id/view3" app:layout_constraintBottom_toBottomOf="@+id/view3"
             app:layout_constraintVertical_bias="1.0"/>
     <Spinner
-            android:layout_width="300dp"
+            android:layout_width="225dp"
             android:layout_height="wrap_content" android:id="@+id/settingsPresetSelectionSpinner"
             app:layout_constraintBottom_toTopOf="@+id/tableLayout"
-            app:layout_constraintTop_toBottomOf="@+id/view3" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintVertical_bias="0.0"/>
+            app:layout_constraintTop_toBottomOf="@+id/view3"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@+id/textView"/>
     <TableLayout
             android:layout_width="349dp"
             android:layout_height="261dp" app:layout_constraintEnd_toEndOf="parent"
@@ -39,13 +39,13 @@
 
         <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/templateNameRow"
-                android:visibility="invisible">
+                android:layout_height="match_parent" android:id="@+id/templateNameRow"
+                android:visibility="visible">
             <TextView
-                    android:text="Template name"
+                    android:text="Template Name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/templateNameTextView" android:autoText="false"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" android:visibility="visible"/>
             <EditText
                     android:layout_width="174dp"
                     android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
         </TableRow>
         <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
             <TextView
-                    android:text="Winning score"
+                    android:text="Winning Score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/textView6" android:textSize="18sp"/>
             <EditText
@@ -96,8 +96,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <TextView
-                    android:text="Winning sets"
-                    android:layout_width="wrap_content"
+                    android:text="Winning Sets"
+                    android:layout_width="135dp"
                     android:layout_height="wrap_content" android:id="@+id/textView8" android:textSize="18sp"/>
             <EditText
                     android:layout_width="100dp"
@@ -106,28 +106,16 @@
                     android:ems="10"
                     android:id="@+id/winningSetsEdit" android:hint="3" android:singleLine="true" android:maxLength="1"/>
         </TableRow>
-        <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
-            <TextView
-                    android:text="Save as template"
-                    android:layout_width="175dp"
-                    android:layout_height="wrap_content" android:id="@+id/textView2" android:textSize="18sp"/>
-            <Switch
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent" android:id="@+id/newTemplateSwitch"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:visibility="visible"
-            />
-        </TableRow>
     </TableLayout>
     <TextView
             android:text="Settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/textView9"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="28dp" android:layout_marginTop="28dp" android:layout_marginStart="28dp"
-            android:textSize="30sp" app:layout_constraintEnd_toStartOf="@+id/divider5"
-            app:layout_constraintBottom_toBottomOf="@+id/view3" app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintHorizontal_bias="0.0"/>
+            android:layout_marginLeft="28dp" android:layout_marginStart="28dp"
+            android:textSize="30dp" app:layout_constraintEnd_toStartOf="@+id/divider5"
+            app:layout_constraintBottom_toBottomOf="@+id/view3"
+            app:layout_constraintHorizontal_bias="0.0" android:textColor="#B8B8B8"/>
     <View
             android:id="@+id/divider4"
             android:layout_width="match_parent"
@@ -137,13 +125,15 @@
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.848"
             android:visibility="invisible"/>
     <Button
-            android:layout_width="75dp"
-            android:layout_height="75dp" android:id="@+id/saveSettingsButton"
-            app:layout_constraintTop_toBottomOf="@+id/divider4"
-            app:layout_constraintBottom_toBottomOf="@+id/divider5"
-            app:layout_constraintStart_toStartOf="parent" android:foreground="@android:drawable/ic_menu_save"
+            android:layout_width="48dp"
+            android:layout_height="48dp" android:id="@+id/saveSettingsButton"
+            android:foreground="@drawable/ic_round_save_alt_48"
             android:background="#00FFFFFF" style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_marginBottom="20dp" app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="28dp"
+            android:layout_marginEnd="28dp"
+            app:layout_constraintStart_toEndOf="@+id/textView2" app:layout_constraintTop_toTopOf="@+id/textView2"
+            app:layout_constraintBottom_toBottomOf="@+id/textView2" app:layout_constraintHorizontal_bias="0.0"/>
     <View
             android:id="@+id/divider5"
             android:layout_width="1dp"
@@ -153,12 +143,27 @@
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" android:visibility="invisible"/>
     <Button
-            android:layout_width="75dp"
-            android:layout_height="75dp" android:id="@+id/closeSettingsButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp" android:id="@+id/closeSettingsButton"
             app:layout_constraintStart_toEndOf="@+id/divider5" app:layout_constraintEnd_toEndOf="@+id/view3"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="@+id/view3"
-            android:layout_marginTop="28dp" android:layout_marginRight="28dp" android:layout_marginEnd="28dp"
-            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintVertical_bias="0.0"
-            android:foreground="@android:drawable/ic_menu_close_clear_cancel" android:background="#00FFFFFF"
+            android:layout_marginRight="28dp" android:layout_marginEnd="28dp"
+            app:layout_constraintHorizontal_bias="1.0"
+            android:foreground="@drawable/ic_baseline_exit_to_app_48" android:background="#00FFFFFF"
             style="@style/Widget.AppCompat.Button.Borderless"/>
+    <TextView
+            android:text="Save as Template"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" android:id="@+id/textView2" android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toTopOf="@+id/divider4"
+            app:layout_constraintTop_toBottomOf="@+id/tableLayout" app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintVertical_bias="1.0"/>
+    <TextView
+            android:text="Chose Template :"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" android:id="@+id/textView"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tableLayout" app:layout_constraintTop_toBottomOf="@+id/view3"
+            app:layout_constraintHorizontal_bias="0.08" android:textSize="18sp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
