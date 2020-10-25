@@ -29,7 +29,7 @@ interface DatabaseManager {
         Returns:
         DatabaseResponse object containing error message, response text and response state
      */
-    fun createDatabase():DatabaseResponse
+    fun create():DatabaseResponse
 
     /*
         Reads the game database file to string.

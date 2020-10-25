@@ -17,7 +17,7 @@ class DatabaseManagerAndroid(_context: Context) : DatabaseManager {
         FileNotFound exception it creates the files. Any other
         Exception and the function will simply report the fail
      */
-    override fun createDatabase(): DatabaseResponse {
+    override fun create(): DatabaseResponse {
         var response : DatabaseResponse = DatabaseResponse()
         try {
             try {
@@ -36,6 +36,13 @@ class DatabaseManagerAndroid(_context: Context) : DatabaseManager {
             response.errorMessage = ex.message.toString()
             return response
         }
+        // Here several presets are defined, that are useful
+        addSettings(GameSettings("Team 1", "Team 2", 25, 3, "FIVB Indoor"))
+        addSettings(GameSettings("Team 1", "Team 2", 25, 1, "Casual Indoor"))
+        addSettings(GameSettings("Team 1", "Team 2", 21, 2, "Beach Standart"))
+        addSettings(GameSettings("Team 1", "Team 2", 21, 1, "Casual Beach"))
+        addSettings(GameSettings("Team 1", "Team 2", 15, 1, "Casual Beach Short"))
+
         response.responseState = OK
         return response
     }

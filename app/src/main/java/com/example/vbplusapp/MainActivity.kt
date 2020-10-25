@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var dbMan: DatabaseManagerAndroid
 
     private fun initialize() {
-        this.dbMan.createDatabase() // only works if the database files do not exist
+        this.dbMan.create() // only works if the database files do not exist
         this.state = dbMan.loadState()
         this.game = state.activeGame
         update() // calls the update function to display the loaded game (default)
@@ -200,6 +200,10 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         this.state = dbMan.loadState()
+        if ( state.activeGame.settings.identifier != game.settings.identifier ){
+
+        }
+        loadGameSettings()
         update()
     }
 
