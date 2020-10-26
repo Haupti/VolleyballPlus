@@ -1,20 +1,15 @@
 package com.example.vbplusapp
 
-import android.app.Application
+import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.vbplusapp.game.*
 import com.example.vbplusapp.game.Set
 import kotlinx.android.synthetic.main.activity_main.*
-import com.google.gson.Gson
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,8 +28,8 @@ class MainActivity : AppCompatActivity() {
         Loads the game settings chosen in the settings menu
         Makes new game with those settings. This causes the old settings to be lost
      */
-    private fun loadGameSettings(){
-        this.game = Game(dbMan.getSettings(state.settingsPresetSelected))
+    fun loadGameSettings(){
+        this.game = Game(state.latestSettings)
         update()
     }
 
@@ -53,16 +48,12 @@ class MainActivity : AppCompatActivity() {
        if(game.sets[game.currentSet-1].isOver || game.isOver) { // if the current set is over show the next set button, hide two other
            team1ScoreUp.visibility = View.GONE
            team2ScoreUp.visibility = View.GONE
-           if(game.isOver) {
-               reloadButton.text = "New Game"
-           }
-           else {
+           if(!game.isOver) {
                nextSetButton.visibility = View.VISIBLE
            }
 
        }
         else if (!game.sets[game.currentSet-1].isOver){ // if set is not over (next set button pressed) reverses the view
-           reloadButton.text = "Reload"
            team1ScoreUp.visibility = View.VISIBLE
            team2ScoreUp.visibility = View.VISIBLE
            nextSetButton.visibility = View.GONE
@@ -106,7 +97,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun refreshDisplay(){
+    fun refreshDisplay(){
 
         var currentSet: Set = this.game.sets[game.currentSet-1]
 
@@ -127,12 +118,29 @@ class MainActivity : AppCompatActivity() {
         Parameters:
         game: Game = the game object that is needed to show scores and stuff
      */
-    private fun update(){
+    fun update(){
         updateButtons()
         updateServeMarker()
         updateSetPointHighlight()
         refreshDisplay()
         dbMan.saveState(state)
+    }
+
+    private fun onAlertDialog(view: View){
+        val builder = AlertDialog.Builder(view.context)
+        builder.setTitle("Update the game state?")
+        builder.setMessage(
+            "Do you want to use the new settings while in a ongoing game?" +
+                    "\nThis will cause the score to be reset." +
+                    "\nYou can manually load the settings later by holding the folder icon on the top left corner."
+        )
+        builder.setPositiveButton("Apply Settings"){
+                _, _ -> loadGameSettings()
+        }
+        builder.setNegativeButton("Don't Apply"){
+            _, _ -> Toast.makeText(this, "Old settings are kept.", Toast.LENGTH_SHORT).show()
+        }
+        builder.show()
     }
 
 
@@ -169,9 +177,8 @@ class MainActivity : AppCompatActivity() {
             return@setOnLongClickListener true
         }
 
-        settings.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivityForResult(intent, 0 )
+        menuButton.setOnClickListener {
+            MenuDialog(this).show()
         }
 
         nextSetButton.setOnClickListener{
@@ -179,18 +186,7 @@ class MainActivity : AppCompatActivity() {
             update()
         }
 
-        reloadButton.setOnClickListener {
-            Toast.makeText(this, "Hold button to reload. \nThis will cause the current game to get lost",
-                Toast.LENGTH_LONG).show()
-        }
 
-        reloadButton.setOnLongClickListener {
-            Toast.makeText(this, "Loaded", Toast.LENGTH_SHORT).show()
-            loadGameSettings()
-            refreshDisplay()
-            update()
-            return@setOnLongClickListener true
-        }
 
 
     }
@@ -200,14 +196,15 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         this.state = dbMan.loadState()
-        if ( state.activeGame.settings.identifier != game.settings.identifier ){
-
+        if((game.sets[game.currentSet-1].team1Score != 0 || game.sets[game.currentSet-1].team2Score != 0
+                || game.currentSet > 1) && state.reloadRequested ) {
+            state.reloadRequested = false
+            dbMan.saveState(state)
+            onAlertDialog(this.view)
         }
-        loadGameSettings()
+
         update()
     }
-
-
 }
 
 

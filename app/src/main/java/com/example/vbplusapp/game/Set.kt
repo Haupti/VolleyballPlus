@@ -88,6 +88,7 @@ class Set (_defaultPoints:Int = 25, _pointGap: Int = 2){
             team2ScoreHistory.removeLast()
             team1Score = team1ScoreHistory[team1ScoreHistory.size-1]
             team2Score = team2ScoreHistory[team2ScoreHistory.size-1]
+            isSetPoint()
 
             return true
         }

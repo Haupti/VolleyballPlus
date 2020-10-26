@@ -23,11 +23,11 @@
             app:layout_constraintVertical_bias="0.142" android:foreground="@color/colorAccent"/>
     <Button
             android:layout_width="48dp"
-            android:layout_height="48dp" android:id="@+id/settings"
+            android:layout_height="48dp" android:id="@+id/menuButton"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="1.0" android:foreground="@drawable/ic_round_settings_48"
+            app:layout_constraintHorizontal_bias="1.0" android:foreground="@drawable/ic_round_menu_48"
             android:background="#00FFFFFF" android:layout_marginRight="28dp"
             app:layout_constraintBottom_toTopOf="@+id/divider2"
             style="@style/Widget.AppCompat.Button.Borderless"/>
@@ -40,18 +40,6 @@
             android:background="#009C9C9C"
             android:foreground="@drawable/ic_round_remove_circle_48" app:layout_constraintBottom_toTopOf="@+id/divider2"
             style="@style/Widget.AppCompat.Button.Borderless"/>
-    <Button
-            android:layout_width="48dp"
-            android:layout_height="48dp" android:id="@+id/reloadButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:background="#00FFFFFF" android:layout_marginLeft="28dp"
-            app:layout_constraintBottom_toTopOf="@+id/divider2"
-            style="@style/Widget.AppCompat.Button.Borderless" android:drawableTop="@drawable/ic_baseline_folder_open_48"
-            android:textColor="@color/colorPrimaryDark"
-    />
     <Button
             android:layout_width="75dp"
             android:layout_height="75dp" android:id="@+id/team1ScoreUp"

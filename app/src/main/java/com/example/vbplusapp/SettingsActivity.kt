@@ -14,10 +14,10 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var dbMan: DatabaseManagerAndroid
     private lateinit var state: AppState
     /*
-        Saves the currently displayed settings to the settings database on position 0
-        such that it will reload in main activity if reload is pressed
+        Saves the currently displayed settings to the settings to state
+        such that it will reload in main activity
      */
-    private fun saveGameSettings(name : String){
+    private fun getDisplayedGameSettings() : GameSettings {
         var settings: GameSettings = GameSettings()
 
         //it is sufficient to only set the values if there is something typed in
@@ -34,8 +34,8 @@ class SettingsActivity : AppCompatActivity() {
         if ( team2NameEdit.text.toString() != "") {
             settings.team2Name = team2NameEdit.text.toString()
         }
-        settings.templateName = name
-        dbMan.addSettings(settings)
+        settings.templateName = "latest"
+        return settings
     }
 
 
@@ -67,7 +67,9 @@ class SettingsActivity : AppCompatActivity() {
 
         //Simply go back to the MainActivity
         closeSettingsButton.setOnClickListener {
-            saveGameSettings("latest")
+            this.state.latestSettings = getDisplayedGameSettings()
+            this.state.reloadRequested = true
+            dbMan.saveState(this.state)
             finish()
         }
 /*

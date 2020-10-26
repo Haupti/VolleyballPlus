@@ -1,6 +1,7 @@
 package com.example.vbplusapp
 
 import com.example.vbplusapp.game.Game
+import com.example.vbplusapp.game.GameSettings
 
 /*
     The purpose for this class is to store all the information and various other stuff
@@ -15,6 +16,15 @@ import com.example.vbplusapp.game.Game
                                           thus are saved in separate file
  */
 class AppState constructor(){
-    var settingsPresetSelected : Int = 0
+    // Game that is currently running
     var activeGame : Game = Game()
+
+    // Latest temporary settings. These can be unequal to the active games settings
+    var latestSettings: GameSettings = GameSettings()
+
+    // This is used in the settings menu. It determines which setting preset to show
+    var settingsPresetSelected = 0
+
+    // This is used if in the menu the reload button was pressed
+    var reloadRequested = false
 }

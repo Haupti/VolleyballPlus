@@ -30,18 +30,18 @@ class DatabaseManagerAndroid(_context: Context) : DatabaseManager {
             } catch (ex: FileNotFoundException) {
                 File(path + settingsDatabaseName).createNewFile()
                 File(path + settingsDatabaseName).writeText(Gson().toJson(mutableListOf(GameSettings())))
+                // Here several presets are defined, that are useful
+                addSettings(GameSettings("Team 1", "Team 2", 25, 3, "FIVB Indoor"))
+                addSettings(GameSettings("Team 1", "Team 2", 25, 1, "Casual Indoor"))
+                addSettings(GameSettings("Team 1", "Team 2", 21, 2, "Beach Standard"))
+                addSettings(GameSettings("Team 1", "Team 2", 21, 1, "Casual Beach"))
+                addSettings(GameSettings("Team 1", "Team 2", 15, 1, "Casual Beach Short"))
             }
         }catch (ex: Exception){ // in case of other exception
             response.responseState = FAILED
             response.errorMessage = ex.message.toString()
             return response
         }
-        // Here several presets are defined, that are useful
-        addSettings(GameSettings("Team 1", "Team 2", 25, 3, "FIVB Indoor"))
-        addSettings(GameSettings("Team 1", "Team 2", 25, 1, "Casual Indoor"))
-        addSettings(GameSettings("Team 1", "Team 2", 21, 2, "Beach Standart"))
-        addSettings(GameSettings("Team 1", "Team 2", 21, 1, "Casual Beach"))
-        addSettings(GameSettings("Team 1", "Team 2", 15, 1, "Casual Beach Short"))
 
         response.responseState = OK
         return response
