@@ -171,4 +171,12 @@
             app:layout_constraintBottom_toTopOf="@+id/team2ScoreView" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView3" app:layout_constraintVertical_bias="0.0"
             android:foreground="@drawable/ic_twotone_sports_volleyball_96" android:visibility="invisible"/>
+    <Button
+            android:layout_width="48dp"
+            android:layout_height="48dp" android:id="@+id/reloadButton"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toStartOf="@+id/reverse"
+            app:layout_constraintBottom_toBottomOf="@+id/view2" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp" android:foreground="@drawable/ic_baseline_folder_open_48"
+            android:background="#00FFFFFF"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

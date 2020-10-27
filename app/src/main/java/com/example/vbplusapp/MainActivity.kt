@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import com.example.vbplusapp.game.*
 import com.example.vbplusapp.game.Set
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.layout_menu_dialog.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -186,6 +187,17 @@ class MainActivity : AppCompatActivity() {
             update()
         }
 
+        reloadButton.setOnClickListener {
+            Toast.makeText(this, "Hold button to reload. \nThis will cause the current game to get lost",
+                Toast.LENGTH_LONG).show()
+        }
+        reloadButton.setOnLongClickListener {
+            Toast.makeText(this, "Loaded", Toast.LENGTH_SHORT).show()
+            loadGameSettings()
+            dbMan.saveState(state)
+            return@setOnLongClickListener true
+        }
+
 
 
 
@@ -196,11 +208,12 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         this.state = dbMan.loadState()
-        if((game.sets[game.currentSet-1].team1Score != 0 || game.sets[game.currentSet-1].team2Score != 0
-                || game.currentSet > 1) && state.reloadRequested ) {
-            state.reloadRequested = false
-            dbMan.saveState(state)
+        if(game.sets[game.currentSet-1].team1Score != 0 || game.sets[game.currentSet-1].team2Score != 0
+                || game.currentSet > 1) {
             onAlertDialog(this.view)
+        }
+        else if( game.settings != state.latestSettings ){
+            loadGameSettings()
         }
 
         update()

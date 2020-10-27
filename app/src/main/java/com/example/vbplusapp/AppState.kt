@@ -25,6 +25,4 @@ class AppState constructor(){
     // This is used in the settings menu. It determines which setting preset to show
     var settingsPresetSelected = 0
 
-    // This is used if in the menu the reload button was pressed
-    var reloadRequested = false
 }

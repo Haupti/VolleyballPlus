@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat.startActivity
 import com.example.vbplusapp.game.DatabaseManagerAndroid
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.layout_menu_dialog.reloadButton
 
 class MenuDialog(context: Context) : AppCompatDialog(context) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,25 +34,6 @@ class MenuDialog(context: Context) : AppCompatDialog(context) {
             startActivity(context, intent,null)
         }
 
-        gamesPlayedButton.setOnClickListener {
-            /*
-            val intent = Intent(context, GamesPlayedActivity::class.java)
-            dismiss()
-            startActivity(context, intent, null)
-             */ dismiss()
-            Toast.makeText(context, "not implemented yet", Toast.LENGTH_SHORT).show()
-        }
-
-        reloadButton.setOnClickListener {
-            Toast.makeText(context, "Hold button to reload. \nThis will cause the current game to get lost",
-                Toast.LENGTH_LONG).show()
-        }
-        reloadButton.setOnLongClickListener {
-            Toast.makeText(context, "Loaded", Toast.LENGTH_SHORT).show()
-            state.reloadRequested = true
-            dbMan.saveState(state)
-            return@setOnLongClickListener true
-        }
 
     }
 

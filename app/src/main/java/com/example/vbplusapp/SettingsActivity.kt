@@ -68,7 +68,6 @@ class SettingsActivity : AppCompatActivity() {
         //Simply go back to the MainActivity
         closeSettingsButton.setOnClickListener {
             this.state.latestSettings = getDisplayedGameSettings()
-            this.state.reloadRequested = true
             dbMan.saveState(this.state)
             finish()
         }
