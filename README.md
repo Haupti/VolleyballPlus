@@ -1,6 +1,7 @@
-# The further developement of this is stopped!
+# I stopped working on it
 This is due to a drastic change in the app's architecture. I'm a beginner and I leanred about MVVM. Also the core of the app: the game class
-has to be completely redone anyway for the features I wanted the app to have. Sorry. But look at the AutomaticScorer app, this is the successor of the Volleyball+ app!
+has to be completely redone anyway for the features I wanted the app to have. Sorry.
+
 
 ## Volleyball+ App
 
